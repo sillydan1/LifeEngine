@@ -1,0 +1,8 @@
+#ifndef __ECS__
+#define __ECS__
+#include "Entity.hpp"
+#include "Component.hpp"
+#include "System.hpp"
+#include "ECS.hpp"
+
+#endif // __ECS__
