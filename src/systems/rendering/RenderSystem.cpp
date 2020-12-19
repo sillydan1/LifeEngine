@@ -39,7 +39,7 @@ namespace life {
 		kuma::Material::SetGlobalProperty("u_view", 		view);
 		kuma::Material::SetGlobalProperty("u_pureview", 	pureview);
 		kuma::Material::SetGlobalProperty("u_proj", 		projection);
-		kuma::Material::SetGlobalProperty("u_viewPos", 	    camera.Position);
+		kuma::Material::SetGlobalProperty("u_viewPos", 	camera.Position);
 		bound = true;
 	}
 	

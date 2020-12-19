@@ -172,6 +172,7 @@ namespace life::editor {
 	void EditorMenus::DrawViewport(const LayerStack *owner, float &width, float &height, const std::string& buffer) {
         GLuint colorattachment = *(GLuint*)owner->GetLayerResource(buffer).second;
         GLCall(glBindTexture(GL_TEXTURE_2D, colorattachment));
+        GLCall(glViewport(0, 0, width, height));
         auto window_size = ImGui::GetWindowSize();
         window_size.x -= 5;
         window_size.y -= 45;
@@ -182,7 +183,7 @@ namespace life::editor {
         // Dispatch a RenderResizeEvent if the scene viewer changed.
         if(width != nx || height != ny) {
             // Dispatch a window resize event
-            RenderResizeEvent re{nx, ny};
+            RenderResizeEvent re{nx, ny, buffer.c_str()};
             Application::Get().OnEvent(re);
             width  = nx;
             height = ny;

@@ -80,8 +80,9 @@ namespace life {
     
     class RenderResizeEvent : public Event {
 	public:
-    	RenderResizeEvent(float x, float y) : x{x}, y{y} {}
-    	
+    	RenderResizeEvent(float x, float y) : x{x}, y{y}, user_data{""} {}
+    	RenderResizeEvent(float x, float y, const char* userdata) : x{x}, y{y}, user_data{userdata} {}
+
     	virtual std::string ToString() const override {
 			std::stringstream ss;
 			ss << "RenderResizeEvent: " << x << ", " << y;
@@ -94,8 +95,11 @@ namespace life {
     	EVENT_CLASS_TYPE(RenderResize);
     	
     	EVENT_CLASS_CATEGORY(EventCategory::EventCategoryApplication);
+
+    	const char* GetUserData() { return user_data; }
     private:
     	float x, y;
+        const char* user_data;
     };
 
 }

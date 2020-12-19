@@ -13,6 +13,7 @@
 #include <events/ApplicationEvents.hpp>
 
 namespace life {
+    int layerCounter = 0;
     /// Render layer
     /// This layer handles all that is needed for rendering the game world into
     /// a frame buffer. The base Render layer does not render an anti-aliased image
@@ -43,7 +44,8 @@ namespace life {
 			  skybox{},
 			  cam{},
 			  left{false}, right{false}, forward{false}, backward{false}, up{false}, down{false}, camera_enabled{false},
-			  is_editor_camera{is_editor_camera}, is_main_camera{is_main_camera}
+			  is_editor_camera{is_editor_camera}, is_main_camera{is_main_camera},
+			  myCounterID{layerCounter++}
 		{
 			renderSystems.PushSystem(mainRenderSystem);
 			renderSystems.PushSystem<AnimationSystem>();
@@ -83,12 +85,24 @@ namespace life {
 			GLCall(glViewport(0, 0, new_dimensions.x, new_dimensions.y));
 			cam.Update(new_dimensions.x, new_dimensions.y);
 			Application::Get().GetWindow().SetDimensions(new_dimensions.x, new_dimensions.y);
+			LIFE_LOG("Resize Window, [%d]", myCounterID);
 		}
+		int myCounterID;
 		
 		void ResizeRenderTexture(const float nx, const float ny) {
+            framebuffer.Resize(nx, ny);
+            antialiasFrameBuffer.Resize(nx, ny);
+            GLCall(glViewport(0, 0, nx, ny));
+            cam.Update(nx, ny);
+		}
+
+		void ResizeSelectorTexture(const float nx, const float ny) {
+            selector_framebuffer.Resize(nx, ny);
+		    GLCall(glViewport(0, 0, nx, ny));
             cam.Update(nx, ny);
 		}
 	};
+
 	
     void RenderLayer::OnUpdate() {
     	pimpl->cam.Bind();
@@ -172,8 +186,16 @@ namespace life {
 			}
 			case EventType::RenderResize: {
 				auto ev = static_cast<RenderResizeEvent&>(event);
-				pimpl->ResizeRenderTexture(ev.GetWidth(),ev.GetHeight());
-				event.SetHandled();
+                if(pimpl->is_editor_camera) {
+                    if(strcmp(ev.GetUserData(), "GL_FBO_COLORATTACHMENT") == 0)
+                        pimpl->ResizeRenderTexture(ev.GetWidth(),ev.GetHeight());
+                    if(strcmp(ev.GetUserData(), "TEST_FRAMEBUFFER_COLORATTACHMENT") == 0)
+                        pimpl->ResizeSelectorTexture(ev.GetWidth(), ev.GetHeight());
+                    event.SetHandled();
+                } else if(pimpl->is_main_camera && strcmp(ev.GetUserData(), "GAME_GL_FBO_COLORATTACHMENT") == 0) {
+                    pimpl->ResizeRenderTexture(ev.GetWidth(),ev.GetHeight());
+                    event.SetHandled();
+                }
 				break; // Do not set it to handled = true, because other layers might need to react
 			}
 			case EventType::MouseButtonPressed: {

@@ -92,7 +92,7 @@ namespace life {
         LIFE_ASSERT(FileDialogueFileTypes.size() == (unsigned int)FileType::Any+1, "Not all FileType enumerations are supported in File Dialogues yet!");
         auto f = pfd::open_file("Choose File", base_dir,
                                 { FileDialogueFileTypes[ft].first, FileDialogueFileTypes[ft].second },
-                                false);
+                                pfd::opt::none);
         if(!f.result().empty())
             return f.result()[0];
         return std::string();
@@ -102,7 +102,7 @@ namespace life {
         LIFE_ASSERT(FileDialogueFileTypes.size() == (unsigned int)FileType::Any+1, "Not all FileType enumerations are supported in File Dialogues yet!");
         auto f = pfd::open_file("Choose File", base_dir,
                                 { FileDialogueFileTypes[ft].first, FileDialogueFileTypes[ft].second },
-                                true);
+                                pfd::opt::multiselect);
         if(!f.result().empty())
             return f.result();
         return {};

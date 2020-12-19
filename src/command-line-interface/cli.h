@@ -28,7 +28,7 @@ namespace life::cli {
 		static std::shared_ptr<std::ostream> get_current_stream();
 		
 		std::ostream& operator<<(const std::string& a) {
-			return *CLI::get_current_stream() << a;
+		    return *CLI::get_current_stream() << a;
 		}
 		
 	private:
