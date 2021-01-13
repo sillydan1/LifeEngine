@@ -42,6 +42,7 @@ add_subdirectory(dep/spdlog)
 add_executable(${PROJECT_NAME}
 	src/main.cpp
 	src/cli/CLIConfig.cpp
+	src/util/Time.cpp
 )
 
 target_link_libraries(${PROJECT_NAME}

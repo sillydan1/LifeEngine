@@ -39,6 +39,10 @@
 #include <unordered_set>
 #include <optional>
 #include <variant>
+#include <queue>
+#include <atomic>
+#include <mutex>
+#include <condition_variable>
 
 // Extra "big" libraries that are used everywhere
 #include <spdlog/spdlog.h>
