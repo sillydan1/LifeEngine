@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2020 Asger Gitz-Johansen
+ * Copyright (C) 2021 Asger Gitz-Johansen
 
    This file is part of lifeengine.
 
@@ -14,7 +14,7 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with aaltitoad.  If not, see <https://www.gnu.org/licenses/>.
+    along with lifeengine.  If not, see <https://www.gnu.org/licenses/>.
  */
 #include "CLIConfig.h"
 

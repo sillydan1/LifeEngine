@@ -16,8 +16,6 @@
     You should have received a copy of the GNU General Public License
     along with lifeengine.  If not, see <https://www.gnu.org/licenses/>.
  */
-
-
 #ifndef LIFEENGINE_TIME_H
 #define LIFEENGINE_TIME_H
 
