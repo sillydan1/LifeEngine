@@ -1,9 +1,3 @@
-[submodule "dep/imgui"]
-	path = dep/imgui
-	url = https://github.com/ocornut/imgui
-[submodule "dep/portable-file-dialogs"]
-	path = dep/portable-file-dialogs
-	url = https://github.com/samhocevar/portable-file-dialogs
-[submodule "dep/stb"]
-	path = dep/stb
-	url = https://github.com/nothings/stb
+[submodule "dep/spdlog"]
+	path = dep/spdlog
+	url = https://github.com/gabime/spdlog
