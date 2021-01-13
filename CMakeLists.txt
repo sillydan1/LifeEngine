@@ -23,6 +23,7 @@ find_package(assimp)
 include_directories(
 	dep/argvparse/include
 	dep/spdlog/include
+	dep/glm/
 	dep
 	src
 )
@@ -38,11 +39,13 @@ add_definitions(
 # Third party libraries, compiled with CMAKE
 add_subdirectory(dep/argvparse)
 add_subdirectory(dep/spdlog)
+add_subdirectory(dep/glm)
 
 add_executable(${PROJECT_NAME}
 	src/main.cpp
-	src/cli/CLIConfig.cpp
+		src/util/CLIConfig.cpp
 	src/util/Time.cpp
+	src/util/Random.cpp
 )
 
 target_link_libraries(${PROJECT_NAME}

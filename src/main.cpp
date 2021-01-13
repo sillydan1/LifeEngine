@@ -16,6 +16,7 @@
     You should have received a copy of the GNU General Public License
     along with lifeengine.  If not, see <https://www.gnu.org/licenses/>.
  */
+#include <util/CLIConfig.h>
 
 int main(int argc, char** argv) {
     // Initialize CLI configuration (based on CLI Args)
