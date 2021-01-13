@@ -16,11 +16,13 @@
     You should have received a copy of the GNU General Public License
     along with lifeengine.  If not, see <https://www.gnu.org/licenses/>.
  */
-#ifndef __ECS__
-#define __ECS__
-#include "Entity.hpp"
-#include "Component.hpp"
-#include "System.hpp"
-#include "ECS.hpp"
+#ifndef AALTITOAD_NOT_IMPLEMENTED_YET_EXCEPTION_H
+#define AALTITOAD_NOT_IMPLEMENTED_YET_EXCEPTION_H
+#include <aaltitoadpch.h>
 
-#endif // __ECS__
+class not_implemented_yet_exception : public std::logic_error {
+public:
+    not_implemented_yet_exception () : std::logic_error{"Function not yet implemented."} {}
+};
+
+#endif //AALTITOAD_NOT_IMPLEMENTED_YET_EXCEPTION_H

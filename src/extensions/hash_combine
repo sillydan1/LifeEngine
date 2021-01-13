@@ -16,11 +16,13 @@
     You should have received a copy of the GNU General Public License
     along with lifeengine.  If not, see <https://www.gnu.org/licenses/>.
  */
-#ifndef __ECS__
-#define __ECS__
-#include "Entity.hpp"
-#include "Component.hpp"
-#include "System.hpp"
-#include "ECS.hpp"
+#ifndef HASH_COMBINE_H
+#define HASH_COMBINE_H
 
-#endif // __ECS__
+template <class T>
+inline void hash_combine(std::size_t& seed, const T& v) {
+    std::hash<T> hasher;
+    seed ^= hasher(v) + 0x9e3779b9 + (seed<<6) + (seed>>2);
+}
+
+#endif // HASH_COMBINE_H

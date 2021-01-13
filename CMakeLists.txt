@@ -43,9 +43,11 @@ add_subdirectory(dep/glm)
 
 add_executable(${PROJECT_NAME}
 	src/main.cpp
-		src/util/CLIConfig.cpp
+	src/util/CLIConfig.cpp
 	src/util/Time.cpp
 	src/util/Random.cpp
+
+	src/ecs/Component.cpp
 )
 
 target_link_libraries(${PROJECT_NAME}

@@ -16,11 +16,19 @@
     You should have received a copy of the GNU General Public License
     along with lifeengine.  If not, see <https://www.gnu.org/licenses/>.
  */
-#ifndef __ECS__
-#define __ECS__
-#include "Entity.hpp"
-#include "Component.hpp"
-#include "System.hpp"
-#include "ECS.hpp"
+#ifndef OVERLOAD_HPP
+#define OVERLOAD_HPP
+#include "aaltitoadpch.h"
 
-#endif // __ECS__
+template <class ...Fs>
+struct overload : Fs... {
+	overload(const Fs& ...ts) : Fs{ts}... {}
+	overload(Fs&&... ts) : Fs{ts}... {}
+	
+	using Fs::operator()...;
+};
+
+template <class ...Ts>
+overload(Ts&&...) -> overload<std::decay_t<Ts>...>;
+
+#endif // OVERLOAD_HPP
