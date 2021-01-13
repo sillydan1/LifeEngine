@@ -16,31 +16,45 @@
 
 cmake_minimum_required(VERSION 3.7)
 project(lifeengine)
-
 find_package(glfw3)
 find_package(GLEW)
 find_package(assimp)
 
-set(CMAKE_CXX_STANDARD 17)
-add_definitions(
-	-DGLM_ENABLE_EXPERIMENTAL
-	-DGLFW_INCLUDE_NONE
-)
 include_directories(
-	src
+	dep/argvparse/include
+	dep/spdlog/include
 	dep
+	src
 )
+
+set(CMAKE_CXX_STANDARD 17)
+set(SPDLOG_BUILD_SHARED)
+set(CMAKE_CXX_STANDARD_LIBRARIES -lstdc++fs)
+add_definitions(
+		-DGLM_ENABLE_EXPERIMENTAL
+		-DGLFW_INCLUDE_NONE
+)
+
+# Third party libraries, compiled with CMAKE
+add_subdirectory(dep/argvparse)
+add_subdirectory(dep/spdlog)
 
 add_executable(${PROJECT_NAME}
 	src/main.cpp
+	src/cli/CLIConfig.cpp
 )
 
 target_link_libraries(${PROJECT_NAME}
 	pthread
 	glfw GLEW GL
 	assimp
-	stdc++fs # filesystem
+
+	spdlog argvparse
 )
+
+target_precompile_headers(${PROJECT_NAME} PUBLIC src/lifepch.h)
+
+install(TARGETS ${PROJECT_NAME})
 
 # =============================== UNIT TESTS ================================= #
 enable_testing()
