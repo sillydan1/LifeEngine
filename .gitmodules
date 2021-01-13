@@ -4,3 +4,6 @@
 [submodule "dep/argvparse"]
 	path = dep/argvparse
 	url = https://github.com/sillydan1/argvparse
+[submodule "dep/tinytimer"]
+	path = dep/tinytimer
+	url = https://github.com/sillydan1/tinytimer
