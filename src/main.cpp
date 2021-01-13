@@ -1,7 +1,6 @@
-#include <applications/LifeApplication.hpp>
+#include <life_core.h>
 
 int main(int argc, char** argv) {
-    life::LifeApplication app;
-    app.Run();
+    LIFE_LOG("Hello World");
     return 0;
 }
