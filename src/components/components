@@ -1,4 +1,0 @@
-#include "MaterialComponent.hpp"
-#include "TransformComponent.hpp"
-#include "ModelComponent.hpp"
-#include "StaticMeshComponent.hpp"

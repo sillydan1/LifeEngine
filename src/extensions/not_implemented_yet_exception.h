@@ -16,14 +16,13 @@
     You should have received a copy of the GNU General Public License
     along with lifeengine.  If not, see <https://www.gnu.org/licenses/>.
  */
-#ifndef LIFEENGINE_TIME_H
-#define LIFEENGINE_TIME_H
+#ifndef AALTITOAD_NOT_IMPLEMENTED_YET_EXCEPTION_H
+#define AALTITOAD_NOT_IMPLEMENTED_YET_EXCEPTION_H
+#include <aaltitoadpch.h>
 
-struct Time {
-    static double GetGlobalTime();
-    static float GetFrameTime();
-    static void GameStart();
-    static void FrameEnd();
+class not_implemented_yet_exception : public std::logic_error {
+public:
+    not_implemented_yet_exception () : std::logic_error{"Function not yet implemented."} {}
 };
 
-#endif //LIFEENGINE_TIME_H
+#endif //AALTITOAD_NOT_IMPLEMENTED_YET_EXCEPTION_H

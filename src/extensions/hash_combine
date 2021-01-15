@@ -16,14 +16,13 @@
     You should have received a copy of the GNU General Public License
     along with lifeengine.  If not, see <https://www.gnu.org/licenses/>.
  */
-#ifndef LIFEENGINE_TIME_H
-#define LIFEENGINE_TIME_H
+#ifndef HASH_COMBINE_H
+#define HASH_COMBINE_H
 
-struct Time {
-    static double GetGlobalTime();
-    static float GetFrameTime();
-    static void GameStart();
-    static void FrameEnd();
-};
+template <class T>
+inline void hash_combine(std::size_t& seed, const T& v) {
+    std::hash<T> hasher;
+    seed ^= hasher(v) + 0x9e3779b9 + (seed<<6) + (seed>>2);
+}
 
-#endif //LIFEENGINE_TIME_H
+#endif // HASH_COMBINE_H
