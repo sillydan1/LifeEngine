@@ -1,10 +1,9 @@
 #include "LinuxWindow.hpp"
+#include "events/ApplicationEvents.hpp"
+#include "events/KeyEvents.hpp"
+#include "events/MouseEvents.hpp"
 
-#include <events/ApplicationEvents.hpp>
-#include <events/KeyEvents.hpp>
-#include <events/MouseEvents.hpp>
-
-static bool glfw_initialized = false;
+bool glfw_initialized = false;
 
 static void GLFWErrorCallback(int error, const char* desc) {
     spdlog::error("Error [%d] %s", error, desc);

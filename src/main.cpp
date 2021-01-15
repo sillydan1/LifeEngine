@@ -16,6 +16,7 @@
     You should have received a copy of the GNU General Public License
     along with lifeengine.  If not, see <https://www.gnu.org/licenses/>.
  */
+#include "util/Time.h"
 #include "util/CLIConfig.h"
 #include "window/LinuxWindow.hpp"
 
@@ -29,7 +30,9 @@ int main(int argc, char** argv) {
     auto window = Window::Create(WindowProperties());
     window->SetEventCallback(EventHandlerStud);
     // Start the game
+    Time::GameStart();
     while(!close) window->OnUpdate();
+    delete window;
     return 0;
 }
 
