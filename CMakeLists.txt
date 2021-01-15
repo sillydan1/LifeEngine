@@ -16,9 +16,10 @@
 
 cmake_minimum_required(VERSION 3.7)
 project(lifeengine)
-find_package(glfw3)
-find_package(GLEW)
-find_package(assimp)
+find_package(glm REQUIRED)
+find_package(glfw3 REQUIRED)
+find_package(GLEW REQUIRED)
+find_package(assimp REQUIRED)
 
 include_directories(
 	dep/argvparse/include
@@ -39,7 +40,6 @@ add_definitions(
 # Third party libraries, compiled with CMAKE
 add_subdirectory(dep/argvparse)
 add_subdirectory(dep/spdlog)
-add_subdirectory(dep/glm)
 
 add_executable(${PROJECT_NAME}
 	src/main.cpp
