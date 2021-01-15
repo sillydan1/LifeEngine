@@ -19,6 +19,21 @@
 #include "util/CLIConfig.h"
 #include "window/LinuxWindow.hpp"
 
+int InitializeCLIConfiguration(int argc, char** argv);
+void EventHandlerStud(Event& e);
+
+bool close = false;
+int main(int argc, char** argv) {
+    int errorcode = InitializeCLIConfiguration(argc, argv);
+    if(errorcode != 0) return errorcode;
+    // Start the engine
+    auto window = Window::Create(WindowProperties());
+    window->SetEventCallback(EventHandlerStud);
+    // Start the game
+    while(!close) window->OnUpdate();
+    return 0;
+}
+
 int InitializeCLIConfiguration(int argc, char** argv) {
     // Initialize CLI configuration (based on CLI Args)
     CLIConfig::getInstance().ParseCLIOptionsAndCheckForRequirements(argc, argv);
@@ -33,24 +48,9 @@ int InitializeCLIConfiguration(int argc, char** argv) {
     return 0;
 }
 
-bool close = false;
 void EventHandlerStud(Event& e) {
     if(e.GetEventType() == EventType::WindowClose)
         close = true;
 
     e.SetHandled();
-}
-
-int main(int argc, char** argv) {
-    int errorcode = InitializeCLIConfiguration(argc, argv);
-    if(errorcode != 0) return errorcode;
-    // Start the engine
-    auto window = Window::Create(WindowProperties());
-    window->SetEventCallback(EventHandlerStud);
-    // Start the game
-    while(!close) {
-        window->OnUpdate();
-    }
-
-    return 0;
 }

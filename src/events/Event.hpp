@@ -49,9 +49,6 @@ inline std::ostream& operator<<(std::ostream& os, const Event& e) {
     return os << e.ToString();
 }
 
-/* EVENTS DISPATCHER
- * 	This dispatches events to the assigned function
- * */
 class EventsDispatcher {
     template<typename T>
     using EventFn = std::function<bool(T&)>;
