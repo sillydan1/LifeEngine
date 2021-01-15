@@ -31,6 +31,8 @@
 #include <filesystem>
 #include <type_traits>
 
+#define BIT(x) (1 << x)
+
 // Data structures
 #include <map>
 #include <string>

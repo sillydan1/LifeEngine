@@ -46,6 +46,8 @@ add_executable(${PROJECT_NAME}
 	src/util/CLIConfig.cpp
 	src/util/Time.cpp
 	src/util/Random.cpp
+	src/window/LinuxWindow.cpp
+	src/events/Event.cpp
 
 	src/ecs/Component.cpp
 )

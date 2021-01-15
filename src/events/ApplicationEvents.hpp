@@ -2,106 +2,101 @@
 #define APPLICATION_EVENTS_HPP
 #include "Event.hpp"
 
-namespace life {
+class WindowResizeEvent : public Event {
+public:
+    WindowResizeEvent(unsigned int width, unsigned int height)
+            : m_width(width), m_height(height) {}
 
+    inline unsigned int GetWidth() const { return m_width; }
+    inline unsigned int GetHeight() const { return m_height; }
 
-    class WindowResizeEvent : public Event {
-    public:
-        WindowResizeEvent(unsigned int width, unsigned int height)
-                : m_width(width), m_height(height) {}
+    virtual std::string ToString() const override {
+        std::stringstream ss;
+        ss << "WindowResizeEvent: " << m_width << ", " << m_height;
+        return ss.str();
+    }
 
-        inline unsigned int GetWidth() const { return m_width; }
-        inline unsigned int GetHeight() const { return m_height; }
+    EVENT_CLASS_TYPE(WindowResize);
 
-        virtual std::string ToString() const override {
-            std::stringstream ss;
-            ss << "WindowResizeEvent: " << m_width << ", " << m_height;
-            return ss.str();
-        }
+    EVENT_CLASS_CATEGORY(EventCategory::EventCategoryApplication);
+private:
+    unsigned int m_width, m_height;
+};
+// Very simple events here
+class WindowCloseEvent : public Event {
+public:
+    WindowCloseEvent() {}
 
-        EVENT_CLASS_TYPE(WindowResize);
+    virtual std::string ToString() const override {
+        return "WindowCloseEvent";
+    }
 
-        EVENT_CLASS_CATEGORY(EventCategory::EventCategoryApplication);
-    private:
-        unsigned int m_width, m_height;
-    };
-    // Very simple events here
-    class WindowCloseEvent : public Event {
-    public:
-        WindowCloseEvent() {}
+    EVENT_CLASS_TYPE(WindowClose);
 
-        virtual std::string ToString() const override {
-            return "WindowCloseEvent";
-        }
+    EVENT_CLASS_CATEGORY(EventCategory::EventCategoryApplication);
+};
 
-        EVENT_CLASS_TYPE(WindowClose);
+class AppTickEvent : public Event {
+public:
+    AppTickEvent() {}
 
-        EVENT_CLASS_CATEGORY(EventCategory::EventCategoryApplication);
-    };
+    virtual std::string ToString() const override {
+        return "AppTickEvent";
+    }
 
-    class AppTickEvent : public Event {
-    public:
-        AppTickEvent() {}
+    EVENT_CLASS_TYPE(AppTick);
 
-        virtual std::string ToString() const override {
-            return "AppTickEvent";
-        }
+    EVENT_CLASS_CATEGORY(EventCategory::EventCategoryApplication);
+};
 
-        EVENT_CLASS_TYPE(AppTick);
+class AppUpdateEvent : public Event {
+public:
+    AppUpdateEvent() {}
 
-        EVENT_CLASS_CATEGORY(EventCategory::EventCategoryApplication);
-    };
+    virtual std::string ToString() const override {
+        return "AppUpdateEvent";
+    }
 
-    class AppUpdateEvent : public Event {
-    public:
-        AppUpdateEvent() {}
+    EVENT_CLASS_TYPE(AppUpdate);
 
-        virtual std::string ToString() const override {
-            return "AppUpdateEvent";
-        }
+    EVENT_CLASS_CATEGORY(EventCategory::EventCategoryApplication);
+};
 
-        EVENT_CLASS_TYPE(AppUpdate);
+class AppRenderEvent : public Event {
+public:
+    AppRenderEvent() {}
 
-        EVENT_CLASS_CATEGORY(EventCategory::EventCategoryApplication);
-    };
+    virtual std::string ToString() const override {
+        return "AppRenderEvent";
+    }
 
-    class AppRenderEvent : public Event {
-    public:
-        AppRenderEvent() {}
+    EVENT_CLASS_TYPE(AppRender);
 
-        virtual std::string ToString() const override {
-            return "AppRenderEvent";
-        }
+    EVENT_CLASS_CATEGORY(EventCategory::EventCategoryApplication);
+};
 
-        EVENT_CLASS_TYPE(AppRender);
+class RenderResizeEvent : public Event {
+public:
+    RenderResizeEvent(float x, float y) : x{x}, y{y}, user_data{""} {}
+    RenderResizeEvent(float x, float y, const char* userdata) : x{x}, y{y}, user_data{userdata} {}
 
-        EVENT_CLASS_CATEGORY(EventCategory::EventCategoryApplication);
-    };
-    
-    class RenderResizeEvent : public Event {
-	public:
-    	RenderResizeEvent(float x, float y) : x{x}, y{y}, user_data{""} {}
-    	RenderResizeEvent(float x, float y, const char* userdata) : x{x}, y{y}, user_data{userdata} {}
+    virtual std::string ToString() const override {
+        std::stringstream ss;
+        ss << "RenderResizeEvent: " << x << ", " << y;
+        return ss.str();
+    }
 
-    	virtual std::string ToString() const override {
-			std::stringstream ss;
-			ss << "RenderResizeEvent: " << x << ", " << y;
-			return ss.str();
-    	}
-	
-		inline float GetWidth() const { return x; }
-		inline float GetHeight() const { return y; }
-    	
-    	EVENT_CLASS_TYPE(RenderResize);
-    	
-    	EVENT_CLASS_CATEGORY(EventCategory::EventCategoryApplication);
+    inline float GetWidth() const { return x; }
+    inline float GetHeight() const { return y; }
 
-    	const char* GetUserData() { return user_data; }
-    private:
-    	float x, y;
-        const char* user_data;
-    };
+    EVENT_CLASS_TYPE(RenderResize);
 
-}
+    EVENT_CLASS_CATEGORY(EventCategory::EventCategoryApplication);
+
+    const char* GetUserData() { return user_data; }
+private:
+    float x, y;
+    const char* user_data;
+};
 
 #endif //CLASSNAME_HPP
