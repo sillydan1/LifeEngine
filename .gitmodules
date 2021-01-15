@@ -7,6 +7,3 @@
 [submodule "dep/tinytimer"]
 	path = dep/tinytimer
 	url = https://github.com/sillydan1/tinytimer
-[submodule "dep/glm"]
-	path = dep/glm
-	url = https://github.com/g-truc/glm
