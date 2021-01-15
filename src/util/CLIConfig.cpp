@@ -80,3 +80,17 @@ void CLIConfig::PrintHelpMessage(const char *const *argv) {
 argument_t CLIConfig::operator[](const std::string &lookup) {
     return providedOptions[lookup];
 }
+
+int CLIConfig::InitializeCLIConfig(int argc, char **argv) {
+    int retVal = 0;
+    CLIConfig::getInstance().ParseCLIOptionsAndCheckForRequirements(argc, argv);
+    if(CLIConfig::getInstance().GetStatusCode() != EXIT_SUCCESS || CLIConfig::getInstance()["help"]) {
+        CLIConfig::getInstance().PrintHelpMessage(argv);
+        retVal = CLIConfig::getInstance().GetStatusCode();
+    }
+    if(CLIConfig::getInstance()["verbosity"])
+        spdlog::set_level(static_cast<spdlog::level::level_enum>(6-CLIConfig::getInstance()["verbosity"].as_integer()));
+    else
+        spdlog::set_level(spdlog::level::level_enum::warn);
+    return retVal;
+}
