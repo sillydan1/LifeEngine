@@ -52,6 +52,7 @@ add_executable(${PROJECT_NAME}
 	src/ecs/Component.cpp
 
 	src/engine/Application.cpp
+	src/layers/LayerCollection.cpp
 )
 
 target_link_libraries(${PROJECT_NAME}
