@@ -18,22 +18,40 @@
  */
 #include <lifepch.h>
 #include <window/Window.hpp>
+#include <util/Time.h>
 #include "Application.h"
 
 Application::Application()
- : close(false),
-   window{Window::Create(WindowProperties{})}
+ : close{false},
+   window{Window::Create(WindowProperties{})},
+   layers{}
 {
-    window->SetEventCallback(FNBIND(WindowEventCallback));
+    window->SetEventCallback(FNBIND(PropagateEventAcrossLayers));
 }
 
-void Application::WindowEventCallback(Event& event) {
-    if(event.GetEventType() == EventType::WindowClose)
-        close = true;
+void Application::PropagateEventAcrossLayers(Event& event) {
+    if(event.GetEventCategory() == EventCategory::EventCategoryApplication)
+        HandleApplicationEvent(event);
+    for(auto& layer : layers) layer->OnEvent(event);
+    event.SetHandled();
+}
+
+void Application::HandleApplicationEvent(Event &event) {
+    switch (event.GetEventType()) {
+        case EventType::WindowClose:
+            close = true; break;
+        default:
+            break;
+    }
     event.SetHandled();
 }
 
 void Application::GameStart() {
-    while(!close) window->OnUpdate();
+    Time::GameStart();
+    while(!close) {
+        for(auto& layer : layers)
+            layer->OnUpdate();
+        window->OnUpdate();
+    }
     delete window;
 }

@@ -19,14 +19,22 @@
 
 #ifndef LIFEENGINE_APPLICATION_H
 #define LIFEENGINE_APPLICATION_H
+#include <lifepch.h>
+#include "window/Window.hpp"
+#include "layers/LayerCollection.h"
 
 class Application {
     bool close;
     Window* window;
+    LayerCollection layers;
 public:
     Application();
-    void WindowEventCallback(Event& e);
-    void GameStart();
+    virtual ~Application() = default;
+    void PropagateEventAcrossLayers(Event& event);
+    virtual void GameStart();
+    void HandleApplicationEvent(Event& event);
+    void PushLayer(const std::shared_ptr<Layer>& layer) { layers.PushLayer(layer); }
+    void OverlayLayer(const std::shared_ptr<Layer>& layer) { layers.PushOverlay(layer); }
 };
 
 #endif //LIFEENGINE_APPLICATION_H
