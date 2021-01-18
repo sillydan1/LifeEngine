@@ -16,29 +16,14 @@
     You should have received a copy of the GNU General Public License
     along with lifeengine.  If not, see <https://www.gnu.org/licenses/>.
  */
-#include "util/Time.h"
-#include "util/CLIConfig.h"
-#include "window/LinuxWindow.hpp"
-#include <engine/Application.h>
 
-void EventHandlerStud(Event& e);
+#ifndef LIFEENGINE_APPLICATION_H
+#define LIFEENGINE_APPLICATION_H
 
-bool close = false;
-int main(int argc, char** argv) {
-    int errorcode = CLIConfig::InitializeCLIConfig(argc, argv);
-    if(errorcode != 0) return errorcode;
-    // Start the engine
-    auto engine = Application{};
-    // Start the game
-    Time::GameStart();
-    while(!close) window->OnUpdate();
-    delete window;
-    return 0;
-}
+class Application {
+public:
+    Application();
+    void WindowEventCallback(Event& e);
+};
 
-void EventHandlerStud(Event& e) {
-    if(e.GetEventType() == EventType::WindowClose)
-        close = true;
-
-    e.SetHandled();
-}
+#endif //LIFEENGINE_APPLICATION_H

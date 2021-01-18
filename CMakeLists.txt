@@ -50,6 +50,8 @@ add_executable(${PROJECT_NAME}
 	src/events/Event.cpp
 
 	src/ecs/Component.cpp
+
+	src/engine/Application.cpp
 )
 
 target_link_libraries(${PROJECT_NAME}
