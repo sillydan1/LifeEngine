@@ -21,9 +21,6 @@
 #include "window/LinuxWindow.hpp"
 #include <engine/Application.h>
 
-void EventHandlerStud(Event& e);
-
-bool close = false;
 int main(int argc, char** argv) {
     int errorcode = CLIConfig::InitializeCLIConfig(argc, argv);
     if(errorcode != 0) return errorcode;
@@ -31,14 +28,6 @@ int main(int argc, char** argv) {
     auto engine = Application{};
     // Start the game
     Time::GameStart();
-    while(!close) window->OnUpdate();
-    delete window;
+    engine.GameStart();
     return 0;
-}
-
-void EventHandlerStud(Event& e) {
-    if(e.GetEventType() == EventType::WindowClose)
-        close = true;
-
-    e.SetHandled();
 }

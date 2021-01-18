@@ -32,6 +32,7 @@
 #include <type_traits>
 
 #define BIT(x) (1 << x)
+#define FNBIND(x) [this](auto && PH1) { x(std::forward<decltype(PH1)>(PH1)); }
 
 // Data structures
 #include <map>

@@ -21,9 +21,12 @@
 #define LIFEENGINE_APPLICATION_H
 
 class Application {
+    bool close;
+    Window* window;
 public:
     Application();
     void WindowEventCallback(Event& e);
+    void GameStart();
 };
 
 #endif //LIFEENGINE_APPLICATION_H

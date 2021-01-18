@@ -16,15 +16,24 @@
     You should have received a copy of the GNU General Public License
     along with lifeengine.  If not, see <https://www.gnu.org/licenses/>.
  */
+#include <lifepch.h>
 #include <window/Window.hpp>
 #include "Application.h"
 
-
-Application::Application() {
-    auto window = Window::Create(WindowProperties());
-    window->SetEventCallback(WindowEventCallback);
+Application::Application()
+ : close(false),
+   window{Window::Create(WindowProperties{})}
+{
+    window->SetEventCallback(FNBIND(WindowEventCallback));
 }
 
 void Application::WindowEventCallback(Event& event) {
+    if(event.GetEventType() == EventType::WindowClose)
+        close = true;
+    event.SetHandled();
+}
 
+void Application::GameStart() {
+    while(!close) window->OnUpdate();
+    delete window;
 }
