@@ -16,17 +16,13 @@
     You should have received a copy of the GNU General Public License
     along with lifeengine.  If not, see <https://www.gnu.org/licenses/>.
  */
-#include "util/CLIConfig.h"
-#include "window/LinuxWindow.hpp"
+#include "Sandbox.h"
 
-#include "SANDBOX/Sandbox.h"
+Sandbox::Sandbox() : Application() {
+    // Initialize sandbox variables/values
+}
 
-int main(int argc, char** argv) {
-    int errorcode = CLIConfig::InitializeCLIConfig(argc, argv);
-    if(errorcode != 0) return errorcode;
-    // Start the engine
-    auto engine = Sandbox{};
-    // Start the game
-    engine.GameStart();
-    return 0;
+void Sandbox::GameStart() {
+    // Add sandbox layers
+    Application::GameStart();
 }

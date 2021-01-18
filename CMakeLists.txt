@@ -52,6 +52,8 @@ add_executable(${PROJECT_NAME}
 	src/ecs/Component.cpp
 
 	src/engine/Application.cpp
+	src/SANDBOX/Sandbox.cpp
+
 	src/layers/LayerCollection.cpp
 )
 
