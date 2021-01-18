@@ -20,7 +20,7 @@
 #include <tinytimer/Timer.hpp>
 
 Timer<float> frame_timer = Timer<float>();
-Timer<double> timer = Timer<double>(); // TODO: Maybe a chrono::high_resolution_clock a bit too high-res for this?
+Timer<double> timer = Timer<double>();
 double frame_time = 0.0;
 
 double Time::GetGlobalTime() {
