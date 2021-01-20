@@ -34,7 +34,9 @@ public:
     virtual void GameStart();
     void HandleApplicationEvent(Event& event);
     void PushLayer(const std::shared_ptr<Layer>& layer) { layers.PushLayer(layer); }
+    template<typename T> void PushLayer() { layers.PushLayer(std::static_pointer_cast<Layer>(std::make_shared<T>())); }
     void OverlayLayer(const std::shared_ptr<Layer>& layer) { layers.PushOverlay(layer); }
+    template<typename T> void OverlayLayer() { layers.PushOverlay(std::static_pointer_cast<Layer>(std::make_shared<T>())); }
 };
 
 #endif //LIFEENGINE_APPLICATION_H

@@ -47,3 +47,7 @@ void LayerCollection::PopOverlay(const std::shared_ptr<Layer>& overlay) {
         m_layers.erase(it);
     overlay->OnDetach();
 }
+
+LayerCollection::~LayerCollection() {
+    for(auto& layer : m_layers) layer->OnDetach();
+}

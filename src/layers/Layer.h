@@ -19,20 +19,21 @@
 #ifndef LIFEENGINE_LAYER_H
 #define LIFEENGINE_LAYER_H
 #include <lifepch.h>
+
+#include <utility>
 #include "events/Event.hpp"
 
 class Layer {
     friend class LayerStack;
 public:
-    explicit Layer(const std::string& layer_name)
-            : m_dbgname(layer_name) {}
-    virtual ~Layer() {}
+    explicit Layer(std::string layer_name)
+            : m_dbgname(std::move(layer_name)) {}
+    virtual ~Layer() = default;
 
     virtual void OnEvent(Event& event) {}
     virtual void OnUpdate() {}
-    virtual void OnAttach() {}
-    virtual void OnDetach() {}
-    virtual void OnImGuiRender() {}
+    virtual void OnAttach() { spdlog::trace("[{0}] Layer attached", m_dbgname); }
+    virtual void OnDetach() { spdlog::trace("[{0}] Layer detached", m_dbgname); }
 
     inline const std::string& GetName() { return m_dbgname; }
 protected:
