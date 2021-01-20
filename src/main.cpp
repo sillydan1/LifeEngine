@@ -17,13 +17,11 @@
     along with lifeengine.  If not, see <https://www.gnu.org/licenses/>.
  */
 #include "util/CLIConfig.h"
-#include "window/LinuxWindow.hpp"
-
 #include "SANDBOX/Sandbox.h"
 
 int main(int argc, char** argv) {
     int errorcode = CLIConfig::InitializeCLIConfig(argc, argv);
-    if(errorcode != 0) return errorcode;
+    if(errorcode != EXIT_SUCCESS) return errorcode;
     // Start the engine
     auto engine = Sandbox{};
     // Start the game

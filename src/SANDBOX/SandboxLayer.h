@@ -16,15 +16,16 @@
     You should have received a copy of the GNU General Public License
     along with lifeengine.  If not, see <https://www.gnu.org/licenses/>.
  */
-#include "Sandbox.h"
-#include "SandboxLayer.h"
+#ifndef LIFEENGINE_SANDBOXLAYER_H
+#define LIFEENGINE_SANDBOXLAYER_H
+#include "layers/Layer.h"
 
-Sandbox::Sandbox() : Application() {
-    // Initialize sandbox variables/values
-}
+class SandboxLayer : public Layer {
+public:
+    SandboxLayer();
+    void OnAttach() override;
+    void OnDetach() override;
+    void OnUpdate() override;
+};
 
-void Sandbox::GameStart() {
-    // Add sandbox layers
-    PushLayer<SandboxLayer>();
-    Application::GameStart();
-}
+#endif //LIFEENGINE_SANDBOXLAYER_H
