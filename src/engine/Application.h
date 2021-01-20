@@ -24,7 +24,7 @@
 #include "layers/LayerCollection.h"
 
 class Application {
-    bool close;
+    bool isRunning;
     Window* window;
     LayerCollection layers;
 public:

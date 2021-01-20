@@ -22,7 +22,7 @@
 #include "Application.h"
 
 Application::Application()
- : close{false},
+ : isRunning{true},
    window{Window::Create(WindowProperties{})},
    layers{}
 {
@@ -39,7 +39,7 @@ void Application::PropagateEventAcrossLayers(Event& event) {
 void Application::HandleApplicationEvent(Event &event) {
     switch (event.GetEventType()) {
         case EventType::WindowClose:
-            close = true; break;
+            isRunning = false; break;
         default:
             break;
     }
@@ -48,7 +48,7 @@ void Application::HandleApplicationEvent(Event &event) {
 
 void Application::GameStart() {
     Time::GameStart();
-    while(!close) {
+    while(isRunning) {
         for(auto& layer : layers)
             layer->OnUpdate();
         window->OnUpdate();
