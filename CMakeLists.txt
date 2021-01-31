@@ -41,6 +41,12 @@ add_definitions(
 add_subdirectory(dep/argvparse)
 add_subdirectory(dep/spdlog)
 
+add_executable(rendering_opengl
+	src/rendering/shader/ShaderParser.cpp
+	src/rendering/testmain.cpp
+	src/extensions/stringextensions.cpp
+)
+
 add_executable(${PROJECT_NAME}
 	src/main.cpp
 	src/util/CLIConfig.cpp
