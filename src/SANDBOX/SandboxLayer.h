@@ -18,9 +18,13 @@
  */
 #ifndef LIFEENGINE_SANDBOXLAYER_H
 #define LIFEENGINE_SANDBOXLAYER_H
+#include <glpch.h>
 #include "layers/Layer.h"
+#include "rendering/shader/Shader.h"
 
 class SandboxLayer : public Layer {
+    GLuint VertexBufferObject;
+    Shader bufferShader;
 public:
     SandboxLayer();
     void OnAttach() override;

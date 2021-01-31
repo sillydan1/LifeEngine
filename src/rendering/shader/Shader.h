@@ -18,24 +18,31 @@
  */
 #ifndef LIFEENGINE_SHADER_H
 #define LIFEENGINE_SHADER_H
+#include <glpch.h>
 #include <lifepch.h>
 
-struct FragmentShader {
-    std::string src;
+enum class ShaderStage {
+    Vertex = 0,
+    Fragment = 1,
+    MAX = Fragment
 };
 
-struct VertexShader {
+struct ShaderProgram {
     std::string src;
+    GLuint shaderProgram;
+    ShaderStage stage;
+    bool Compile();
+    ~ShaderProgram();
 };
 
 struct Shader {
-    enum class ShaderStage {
-        Vertex = 0,
-        Fragment = 1,
-        MAX = Fragment
-    };
-    VertexShader vertexShader;
-    FragmentShader fragShader;
+    GLuint shaderProgram = 0;
+    bool CompileAndLinkShaders(std::vector<ShaderProgram>& programs);
+    static GLuint ConvertShaderStageEnumToOGL(const ShaderStage& stageEnum);
+    bool LinkShaders(std::vector<ShaderProgram>& programs);
+    void Use() const;
+
+    ~Shader();
 };
 
 #endif //LIFEENGINE_SHADER_H

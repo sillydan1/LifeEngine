@@ -23,7 +23,7 @@ LinuxWindow::~LinuxWindow() {
 
 void LinuxWindow::InitializeGLFW3Window(const WindowProperties& properties) {
     SetWindowProperties(properties);
-    spdlog::trace("Creating window '%s' (%d, %d)", m_data.Title.c_str(), m_data.width, m_data.height);
+    spdlog::trace("Creating window '{0}' ({1}, {2})", m_data.Title.c_str(), m_data.width, m_data.height);
     InitializeGLFW3API();
     m_window = glfwCreateWindow((int) m_data.width, (int) m_data.height, m_data.Title.c_str(), nullptr, nullptr);
     ConfigureGLFW3ToCurrentWindow();
@@ -46,6 +46,9 @@ void LinuxWindow::InitializeGLFW3API() {
     if(!glfw_initialized) {
         const int success = glfwInit();
         glfwSetErrorCallback(GLFWErrorCallback);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         assert(success);
         glfw_initialized = true;
     }

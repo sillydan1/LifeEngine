@@ -21,7 +21,7 @@
 
 Shader ShaderParser::ParseShaderFile(const std::string& sourceFilePath) {
     std::ifstream infile(sourceFilePath);
-    currentStage = Shader::ShaderStage::Vertex;
+    currentStage = ShaderStage::Vertex;
     while(std::getline(infile, line)) {
         auto precompilermatch = ParsePrecompilerCommand(line);
         if(precompilermatch.exists) {
@@ -30,23 +30,30 @@ Shader ShaderParser::ParseShaderFile(const std::string& sourceFilePath) {
         }
         stringstreams[static_cast<int>(currentStage)] << line << "\n";
     }
-    auto obj = Shader {
-            .vertexShader = {.src = stringstreams[static_cast<int>(Shader::ShaderStage::Vertex)].str()},
-            .fragShader   = {.src = stringstreams[static_cast<int>(Shader::ShaderStage::Fragment)].str()}
-    };
+    auto shader = ConstructShader();
     Reset();
-    return obj;
+    return shader;
 }
 
 ShaderParser::PrecompilerCommandMatch ShaderParser::ParsePrecompilerCommand(const std::string& codeline) {
-    if(contains(codeline, "#vert")) return {.exists = true, .nextStage = Shader::ShaderStage::Vertex};
-    if(contains(codeline, "#frag")) return {.exists = true, .nextStage = Shader::ShaderStage::Fragment};
+    if(contains(codeline, "#vert")) return {.exists = true, .nextStage = ShaderStage::Vertex};
+    if(contains(codeline, "#frag")) return {.exists = true, .nextStage = ShaderStage::Fragment};
     return {};
 }
 
 void ShaderParser::Reset() {
     line.clear();
-    currentStage = Shader::ShaderStage::Vertex;
+    currentStage = ShaderStage::Vertex;
     for(auto& ss : stringstreams) ss.clear();
 }
 
+Shader ShaderParser::ConstructShader() {
+    auto shader = Shader {};
+    std::vector<ShaderProgram> programs;
+    for(int i = 0; i < static_cast<int>(ShaderStage::MAX) + 1; i++) {
+        if(stringstreams[i].str().empty()) continue;
+        programs.push_back(ShaderProgram{.src = stringstreams[i].str(),   .stage = static_cast<ShaderStage>(i)});
+    }
+    shader.CompileAndLinkShaders(programs);
+    return shader;
+}

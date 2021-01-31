@@ -16,25 +16,25 @@
     You should have received a copy of the GNU General Public License
     along with lifeengine.  If not, see <https://www.gnu.org/licenses/>.
  */
-#ifndef LIFEENGINE_SHADERPARSER_H
-#define LIFEENGINE_SHADERPARSER_H
+#ifndef LIFEENGINE_VERTEX_H
+#define LIFEENGINE_VERTEX_H
 #include <lifepch.h>
-#include "Shader.h"
 
-class ShaderParser {
-    ShaderStage currentStage;
-    std::string line;
-    std::stringstream stringstreams[static_cast<int>(ShaderStage::MAX) + 1];
-public:
-    Shader ParseShaderFile(const std::string& sourceFilePath);
-    Shader ConstructShader();
-private:
-    struct PrecompilerCommandMatch {
-        bool exists = false;
-        ShaderStage nextStage = ShaderStage::MAX;
-    };
-    static PrecompilerCommandMatch ParsePrecompilerCommand(const std::string& codeline);
-    void Reset();
+struct VertexAttribute {
+    GLuint layoutLocation;
+    GLuint size;
+    GLuint dataType;
+    bool normalized;
+    GLuint stride;
+    GLuint offset;
+    void Bind();
 };
 
-#endif //LIFEENGINE_SHADERPARSER_H
+struct Vertex {
+    glm::vec3 position;
+    static std::vector<VertexAttribute> GetVertexAttributes();
+};
+
+inline GLuint TO_GL_BOOL(bool b);
+
+#endif //LIFEENGINE_VERTEX_H

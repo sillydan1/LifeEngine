@@ -1,27 +1,13 @@
 #vert
-#version 330
-
-attribute vec3 position;
-attribute vec2 texCoord;
-attribute vec3 color;
-attribute mat4 MVP;
-
-varying vec2 texCoord0;
-varying vec3 color0;
-
+#version 330 core
+layout (location = 0) in vec3 aPos;
 void main() {
-	gl_Position = MVP * vec4(position, 1.0);
-	texCoord0 = texCoord;
-	color0 = color;
+    gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
 }
 
 #frag
-#version 330
-
-varying vec2 texCoord0;
-varying vec3 color0;
-uniform sampler2D diffuse;
-
-void main(){
-	gl_FragColor = vec4(color0, 1.0);
+#version 330 core
+out vec4 FragColor;
+void main() {
+	FragColor = vec4(1.0, 1.0, 1.0, 1.0);
 }

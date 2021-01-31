@@ -16,25 +16,24 @@
     You should have received a copy of the GNU General Public License
     along with lifeengine.  If not, see <https://www.gnu.org/licenses/>.
  */
-#ifndef LIFEENGINE_SHADERPARSER_H
-#define LIFEENGINE_SHADERPARSER_H
-#include <lifepch.h>
-#include "Shader.h"
+#include "Vertex.h"
 
-class ShaderParser {
-    ShaderStage currentStage;
-    std::string line;
-    std::stringstream stringstreams[static_cast<int>(ShaderStage::MAX) + 1];
-public:
-    Shader ParseShaderFile(const std::string& sourceFilePath);
-    Shader ConstructShader();
-private:
-    struct PrecompilerCommandMatch {
-        bool exists = false;
-        ShaderStage nextStage = ShaderStage::MAX;
-    };
-    static PrecompilerCommandMatch ParsePrecompilerCommand(const std::string& codeline);
-    void Reset();
-};
+GLuint TO_GL_BOOL(bool b) { return b ? GL_TRUE : GL_FALSE; }
 
-#endif //LIFEENGINE_SHADERPARSER_H
+std::vector<VertexAttribute> Vertex::GetVertexAttributes() {
+    std::vector<VertexAttribute> attrs{};
+    attrs.push_back(VertexAttribute{
+            .layoutLocation = 0,
+            .size = 3,
+            .dataType = GL_FLOAT,
+            .normalized = false,
+            .stride = 3 * sizeof(float),
+            .offset = 0
+    });
+    return attrs;
+}
+
+void VertexAttribute::Bind() {
+    glVertexAttribPointer(layoutLocation, size, dataType, TO_GL_BOOL(normalized), stride, (void*)&offset);
+    glEnableVertexAttribArray(layoutLocation);
+}

@@ -16,13 +16,12 @@
     You should have received a copy of the GNU General Public License
     along with lifeengine.  If not, see <https://www.gnu.org/licenses/>.
  */
-#include <lifepch.h>
-#include "shader/ShaderParser.h"
+#ifndef LIFEENGINE_MESH_H
+#define LIFEENGINE_MESH_H
+#include "Vertex.h"
 
-int main(int argc, char** argv) {
-    if(argc < 2) return -1;
-    auto shader = ShaderParser{}.ParseShaderFile(argv[1]);
-    std::cout << "====== VERTEX: ======\n" << shader.vertexShader.src;
-    std::cout << "======= FRAG: =======\n" << shader.fragShader.src;
-    return 0;
-}
+struct Mesh {
+    std::vector<Vertex> vertices;
+};
+
+#endif //LIFEENGINE_MESH_H

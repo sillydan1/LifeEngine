@@ -24,7 +24,6 @@
 #include "events/Event.hpp"
 
 class Layer {
-    friend class LayerStack;
 public:
     explicit Layer(std::string layer_name)
             : m_dbgname(std::move(layer_name)) {}
