@@ -19,7 +19,6 @@
 #include "SandboxLayer.h"
 #include <rendering/basics/Mesh.h>
 #include <rendering/shader/ShaderParser.h>
-#include "rendering/debugging.h"
 
 SandboxLayer::SandboxLayer()
 : Layer("SandboxLayer"), VertexBufferObject(0)
