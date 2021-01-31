@@ -41,8 +41,7 @@ struct Shader {
     static GLuint ConvertShaderStageEnumToOGL(const ShaderStage& stageEnum);
     bool LinkShaders(std::vector<ShaderProgram>& programs);
     void Use() const;
-
-    ~Shader();
+    void Destroy() const;
 };
 
 #endif //LIFEENGINE_SHADER_H

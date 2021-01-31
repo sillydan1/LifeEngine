@@ -60,7 +60,10 @@ add_executable(${PROJECT_NAME}
 	src/rendering/shader/ShaderParser.cpp
 	src/rendering/shader/Shader.cpp
 	src/extensions/stringextensions.cpp
-		src/rendering/basics/Vertex.cpp)
+	src/rendering/basics/Vertex.cpp
+
+	src/rendering/debugging.cpp
+)
 
 target_link_libraries(${PROJECT_NAME}
 	pthread

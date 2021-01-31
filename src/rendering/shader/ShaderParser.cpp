@@ -54,6 +54,7 @@ Shader ShaderParser::ConstructShader() {
         if(stringstreams[i].str().empty()) continue;
         programs.push_back(ShaderProgram{.src = stringstreams[i].str(),   .stage = static_cast<ShaderStage>(i)});
     }
-    shader.CompileAndLinkShaders(programs);
+    bool compilation_success = shader.CompileAndLinkShaders(programs);
+    if(!compilation_success) spdlog::error("Shader compilation failed.");
     return shader;
 }

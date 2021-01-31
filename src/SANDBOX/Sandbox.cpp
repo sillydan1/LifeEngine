@@ -21,10 +21,17 @@
 
 Sandbox::Sandbox() : Application() {
     // Initialize sandbox variables/values
+    window->SetVSync(true);
 }
 
 void Sandbox::GameStart() {
     // Add sandbox layers
     PushLayer<SandboxLayer>();
     Application::GameStart();
+}
+
+void Sandbox::HandleApplicationEvent(Event &event) {
+    if(event.GetEventType() == EventType::WindowResize)
+        glViewport(0,0,window->GetWidth(),window->GetHeight());
+    Application::HandleApplicationEvent(event);
 }

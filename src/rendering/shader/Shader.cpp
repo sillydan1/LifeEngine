@@ -16,6 +16,7 @@
     You should have received a copy of the GNU General Public License
     along with lifeengine.  If not, see <https://www.gnu.org/licenses/>.
  */
+#include <rendering/debugging.h>
 #include "Shader.h"
 
 bool Shader::CompileAndLinkShaders(std::vector<ShaderProgram>& programs) {
@@ -49,7 +50,7 @@ GLuint Shader::ConvertShaderStageEnumToOGL(const ShaderStage& stageEnum) {
         case ShaderStage::Vertex:       return GL_VERTEX_SHADER;
         case ShaderStage::Fragment:     return GL_FRAGMENT_SHADER;
     }
-    throw std::logic_error("Provided ShaderStage enum is not convertable to GL_X_SHADER int");
+    throw std::logic_error("Provided ShaderStage enum is not convertible to GL_X_SHADER int");
 }
 
 bool Shader::LinkShaders(std::vector<ShaderProgram>& programs) {
@@ -70,6 +71,6 @@ void Shader::Use() const {
     glUseProgram(shaderProgram);
 }
 
-Shader::~Shader() {
+void Shader::Destroy() const {
     glDeleteProgram(shaderProgram);
 }

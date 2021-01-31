@@ -27,13 +27,16 @@ std::vector<VertexAttribute> Vertex::GetVertexAttributes() {
             .size = 3,
             .dataType = GL_FLOAT,
             .normalized = false,
-            .stride = 3 * sizeof(float),
+            .stride = sizeof(glm::vec3),
             .offset = 0
     });
     return attrs;
 }
-
+// Casting offset to void* is necessary for OpenGL, but it produces a warning.
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wint-to-void-pointer-cast"
 void VertexAttribute::Bind() {
-    glVertexAttribPointer(layoutLocation, size, dataType, TO_GL_BOOL(normalized), stride, (void*)&offset);
+    glVertexAttribPointer(layoutLocation, size, dataType, TO_GL_BOOL(normalized), stride, (void*)offset);
     glEnableVertexAttribArray(layoutLocation);
 }
+#pragma clang diagnostic pop

@@ -16,21 +16,13 @@
     You should have received a copy of the GNU General Public License
     along with lifeengine.  If not, see <https://www.gnu.org/licenses/>.
  */
-#ifndef LIFEENGINE_SANDBOXLAYER_H
-#define LIFEENGINE_SANDBOXLAYER_H
-#include <glpch.h>
-#include "layers/Layer.h"
-#include "rendering/shader/Shader.h"
+#ifndef LIFEENGINE_DEBUGGING_H
+#define LIFEENGINE_DEBUGGING_H
 
-class SandboxLayer : public Layer {
-    GLuint VertexBufferObject;
-    GLuint VertexArrayObject;
-    Shader bufferShader;
-public:
-    SandboxLayer();
-    void OnAttach() override;
-    void OnDetach() override;
-    void OnUpdate() override;
-};
+#define GLCall(x) GLClearError();\
+x;                               \
+assert(GLCheckError(#x))
+bool GLCheckError(const char* func_name);
+void GLClearError();
 
-#endif //LIFEENGINE_SANDBOXLAYER_H
+#endif //LIFEENGINE_DEBUGGING_H
