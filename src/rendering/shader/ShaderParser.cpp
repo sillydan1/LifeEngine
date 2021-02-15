@@ -21,7 +21,9 @@
 
 Shader ShaderParser::ParseShaderFile(const std::string& sourceFilePath) {
     std::ifstream infile(sourceFilePath);
-    currentStage = ShaderStage::Vertex;
+    ShaderStage currentStage = ShaderStage::Vertex;
+    std::string line;
+    std::stringstream stringstreams[static_cast<int>(ShaderStage::MAX) + 1];
     while(std::getline(infile, line)) {
         auto precompilermatch = ParsePrecompilerCommand(line);
         if(precompilermatch.exists) {
@@ -30,8 +32,7 @@ Shader ShaderParser::ParseShaderFile(const std::string& sourceFilePath) {
         }
         stringstreams[static_cast<int>(currentStage)] << line << "\n";
     }
-    auto shader = ConstructShader();
-    Reset();
+    auto shader = ConstructShader(stringstreams);
     return shader;
 }
 
@@ -41,20 +42,16 @@ ShaderParser::PrecompilerCommandMatch ShaderParser::ParsePrecompilerCommand(cons
     return {};
 }
 
-void ShaderParser::Reset() {
-    line.clear();
-    currentStage = ShaderStage::Vertex;
-    for(auto& ss : stringstreams) ss.clear();
-}
-
-Shader ShaderParser::ConstructShader() {
+Shader ShaderParser::ConstructShader(std::stringstream* stringStreamArray) {
     auto shader = Shader {};
     std::vector<ShaderProgram> programs;
     for(int i = 0; i < static_cast<int>(ShaderStage::MAX) + 1; i++) {
-        if(stringstreams[i].str().empty()) continue;
-        programs.push_back(ShaderProgram{.src = stringstreams[i].str(),   .stage = static_cast<ShaderStage>(i)});
+        if(stringStreamArray[i].str().empty())
+            continue;
+        programs.push_back(ShaderProgram{.src = stringStreamArray[i].str(), .stage = static_cast<ShaderStage>(i)});
     }
     bool compilation_success = shader.CompileAndLinkShaders(programs);
-    if(!compilation_success) spdlog::error("Shader compilation failed.");
+    if(!compilation_success)
+        spdlog::error("Shader compilation failed.");
     return shader;
 }

@@ -22,19 +22,15 @@
 #include "Shader.h"
 
 class ShaderParser {
-    ShaderStage currentStage;
-    std::string line;
-    std::stringstream stringstreams[static_cast<int>(ShaderStage::MAX) + 1];
 public:
-    Shader ParseShaderFile(const std::string& sourceFilePath);
-    Shader ConstructShader();
+    static Shader ParseShaderFile(const std::string& sourceFilePath);
+    static Shader ConstructShader(std::stringstream* stringStreamArray);
 private:
     struct PrecompilerCommandMatch {
         bool exists = false;
         ShaderStage nextStage = ShaderStage::MAX;
     };
     static PrecompilerCommandMatch ParsePrecompilerCommand(const std::string& codeline);
-    void Reset();
 };
 
 #endif //LIFEENGINE_SHADERPARSER_H
