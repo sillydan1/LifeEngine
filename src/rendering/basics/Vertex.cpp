@@ -22,13 +22,23 @@ GLuint TO_GL_BOOL(bool b) { return b ? GL_TRUE : GL_FALSE; }
 
 std::vector<VertexAttribute> Vertex::GetVertexAttributes() {
     std::vector<VertexAttribute> attrs{};
+    // position
     attrs.push_back(VertexAttribute{
             .layoutLocation = 0,
             .size = 3,
             .dataType = GL_FLOAT,
             .normalized = false,
-            .stride = sizeof(glm::vec3),
+            .stride = 2 * sizeof(glm::vec3),
             .offset = 0
+    });
+    // color
+    attrs.push_back(VertexAttribute{
+            .layoutLocation = 1,
+            .size = 3,
+            .dataType = GL_FLOAT,
+            .normalized = false,
+            .stride = 2 * sizeof(glm::vec3),
+            .offset = sizeof(glm::vec3)
     });
     return attrs;
 }
