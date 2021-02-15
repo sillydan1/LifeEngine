@@ -20,9 +20,9 @@
 #include <rendering/basics/Mesh.h>
 #include <rendering/shader/ShaderParser.h>
 
-SandboxLayer::SandboxLayer()
-: Layer("SandboxLayer"), VertexBufferObject(0)
-{}
+SandboxLayer::SandboxLayer() : Layer("SandboxLayer"), VertexBufferObject(0) {
+
+}
 
 void SandboxLayer::OnAttach() {
     Layer::OnAttach();
@@ -42,8 +42,8 @@ void SandboxLayer::OnAttach() {
     glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * triangleMesh.vertices.size(), triangleMesh.vertices.data(), GL_STATIC_DRAW);
 
     auto attributes = Vertex::GetVertexAttributes();
-    for(auto& a : attributes) a.Bind();
-
+    for(auto& a : attributes)
+        a.Bind();
 }
 
 void SandboxLayer::OnUpdate() {

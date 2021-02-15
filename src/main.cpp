@@ -21,7 +21,8 @@
 
 int main(int argc, char** argv) {
     int errorcode = CLIConfig::InitializeCLIConfig(argc, argv);
-    if(errorcode != EXIT_SUCCESS) return errorcode;
+    if(errorcode != EXIT_SUCCESS)
+        return errorcode;
     // Start the engine
     auto engine = Sandbox{};
     // Start the game
