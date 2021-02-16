@@ -18,7 +18,9 @@
  */
 #include "Vertex.h"
 
-GLuint TO_GL_BOOL(bool b) { return b ? GL_TRUE : GL_FALSE; }
+GLuint TO_GL_BOOL(bool b) {
+    return b ? GL_TRUE : GL_FALSE;
+}
 
 std::vector<VertexAttribute> Vertex::GetVertexAttributes() {
     std::vector<VertexAttribute> attrs{};
