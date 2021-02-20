@@ -62,6 +62,8 @@ add_executable(${PROJECT_NAME}
 	src/extensions/stringextensions.cpp
 	src/rendering/basics/Vertex.cpp
 
+	src/di/DI.cpp
+
 	src/rendering/debugging.cpp
 )
 
