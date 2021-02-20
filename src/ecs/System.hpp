@@ -23,7 +23,6 @@
 #include "Component.hpp"
 
 namespace life::ecs {
-	
 	enum class ComponentFilterType {
 		AND,
 		OR
@@ -58,26 +57,26 @@ namespace life::ecs {
 		void SetComponentFilterType(const ComponentFilterType& afilterType) {
 			filterType = afilterType;
 		}
+
 		void AddComponentType(const component_id_t& id) {
 		    m_comp_ids.push_back(id);
 		}
+
 		inline void FinalizeComponentAdding() {
 		    if(!finalized) {
                 multi_component = m_comp_ids.size() > 1;
                 if(multi_component) {
                     std::sort(m_comp_ids.begin(), m_comp_ids.end());
-                    for (auto &id : m_comp_ids) {
+                    for (auto &id : m_comp_ids)
                         hash_combine<component_id_t, std::hash<component_id_t>>(component_filter, id);
-                    }
-                } else {
+                } else
                     component_filter = std::hash<component_id_t>{}(m_comp_ids[0]);
-                }
+
                 finalized = true;
                 if(filterType == ComponentFilterType::AND)
-                	m_comp_ids.clear(); // not used any more.
-            } else {
-		        LIFE_ERR("ECS System is being finalized more than once!");
-		    }
+                	m_comp_ids.clear();
+            } else
+		        spdlog::error("ECS System is being finalized more than once!");
 		}
 	};
 
@@ -106,6 +105,6 @@ namespace life::ecs {
 	private:
 		std::vector<std::unique_ptr<System>> m_systems;
 	};
-
 }
+
 #endif //SYSTEM_HPP

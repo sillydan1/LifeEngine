@@ -20,7 +20,7 @@
 
 bool GLCheckError(const char* funcname) {
     while(GLenum error = glGetError()) {
-        std::string err = "";
+        std::string err;
         switch(error) {
             case GL_INVALID_OPERATION:      err="INVALID_OPERATION";      	break;
             case GL_INVALID_ENUM:           err="INVALID_ENUM";           	break;

@@ -19,8 +19,8 @@
 #ifndef LIFEENGINE_DEBUGGING_H
 #define LIFEENGINE_DEBUGGING_H
 
-#define GLCall(x) GLClearError();\
-x;                               \
+#define GLCall(x)   GLClearError();\
+                    x              \
 assert(GLCheckError(#x))
 bool GLCheckError(const char* func_name);
 void GLClearError();
