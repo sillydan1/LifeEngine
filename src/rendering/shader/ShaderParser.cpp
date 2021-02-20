@@ -20,26 +20,42 @@
 #include "extensions/stringextensions.h"
 
 Shader ShaderParser::ParseShaderFile(const std::string& sourceFilePath) {
-    std::ifstream infile(sourceFilePath);
-    ShaderStage currentStage = ShaderStage::Vertex;
-    std::string line;
-    std::stringstream stringstreams[static_cast<int>(ShaderStage::MAX) + 1];
-    while(std::getline(infile, line)) {
-        auto precompilermatch = ParsePrecompilerCommand(line);
-        if(precompilermatch.exists) {
-            currentStage = precompilermatch.nextStage;
-            continue;
-        }
-        stringstreams[static_cast<int>(currentStage)] << line << "\n";
-    }
-    auto shader = ConstructShader(stringstreams);
+    auto shaderParserInstance = ShaderParser{};
+    shaderParserInstance.ParseFile(sourceFilePath);
+    auto shader = ConstructShader(shaderParserInstance.shaderStageStringStreams);
     return shader;
 }
 
-ShaderParser::PrecompilerCommandMatch ShaderParser::ParsePrecompilerCommand(const std::string& codeline) {
-    if(contains(codeline, "#vert")) return {.exists = true, .nextStage = ShaderStage::Vertex};
-    if(contains(codeline, "#frag")) return {.exists = true, .nextStage = ShaderStage::Fragment};
-    return {};
+void ShaderParser::ParseFile(const std::string &sourceFilePath) {
+    std::ifstream infile(sourceFilePath);
+    std::string line;
+    while(std::getline(infile, line)) {
+        auto precompilerCommand = ParsePrecompilerCommand(line);
+        if(precompilerCommand.exists)
+            InterpretPrecompilerCommand(precompilerCommand);
+        else
+            shaderStageStringStreams[static_cast<int>(currentStage)] << line << "\n";
+    }
+}
+
+ShaderParser::PrecompilerCommandMatch ShaderParser::ParsePrecompilerCommand(const std::string& codeLine) {
+    if(contains(codeLine, "#vert"))    return PrecompilerCommandMatch{PrecompilerCommandType::NextStage, ShaderStage::Vertex};
+    if(contains(codeLine, "#frag"))    return PrecompilerCommandMatch{PrecompilerCommandType::NextStage, ShaderStage::Fragment};
+    if(contains(codeLine, "#include")) return PrecompilerCommandMatch{PrecompilerCommandType::IncludeFile, split(codeLine, ' ')[1]};
+    return PrecompilerCommandMatch{};
+}
+
+void ShaderParser::InterpretPrecompilerCommand(const ShaderParser::PrecompilerCommandMatch& commandMatch) {
+    switch (commandMatch.type) {
+        case PrecompilerCommandType::NextStage:
+            currentStage = commandMatch.nextStage;
+            break;
+        case PrecompilerCommandType::IncludeFile:
+            ParseFile(commandMatch.includeFile);
+            break;
+        default:
+            spdlog::error("Precompiler command is not recognized!");
+    }
 }
 
 Shader ShaderParser::ConstructShader(std::stringstream* stringStreamArray) {

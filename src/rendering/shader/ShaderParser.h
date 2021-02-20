@@ -19,18 +19,40 @@
 #ifndef LIFEENGINE_SHADERPARSER_H
 #define LIFEENGINE_SHADERPARSER_H
 #include <lifepch.h>
+
+#include <utility>
 #include "Shader.h"
 
 class ShaderParser {
 public:
     static Shader ParseShaderFile(const std::string& sourceFilePath);
     static Shader ConstructShader(std::stringstream* stringStreamArray);
+
 private:
+    enum class PrecompilerCommandType : unsigned int {
+        None = 0,
+        NextStage = 1,
+        IncludeFile = 2
+    };
     struct PrecompilerCommandMatch {
         bool exists = false;
+        PrecompilerCommandType type = PrecompilerCommandType::None;
         ShaderStage nextStage = ShaderStage::MAX;
+        std::string includeFile;
+
+        PrecompilerCommandMatch(const PrecompilerCommandType& type, const ShaderStage& shaderStage)
+                : exists{true}, type{type}, nextStage{shaderStage} {}
+        PrecompilerCommandMatch(const PrecompilerCommandType& type, std::string  includeFile)
+                : exists{true}, type{type}, includeFile{std::move(includeFile)} {}
+        PrecompilerCommandMatch() : exists{false} {}
     };
-    static PrecompilerCommandMatch ParsePrecompilerCommand(const std::string& codeline);
+
+    ShaderStage currentStage = ShaderStage::Vertex;
+    std::stringstream shaderStageStringStreams[static_cast<int>(ShaderStage::MAX) + 1];
+
+    static PrecompilerCommandMatch ParsePrecompilerCommand(const std::string& codeLine);
+    void InterpretPrecompilerCommand(const PrecompilerCommandMatch& commandMatch);
+    void ParseFile(const std::string& sourceFilePath);
 };
 
 #endif //LIFEENGINE_SHADERPARSER_H
