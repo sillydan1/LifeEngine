@@ -26,4 +26,4 @@ make
 ## Latest Screenshot
 ![Latest Screenshot](readme_resources/first_triangle.png)
 
-###### Main Authors: sillydan1
+###### Authors: sillydan1

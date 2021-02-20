@@ -28,6 +28,9 @@ Shader ShaderParser::ParseShaderFile(const std::string& sourceFilePath) {
 
 void ShaderParser::ParseFile(const std::string &sourceFilePath) {
     std::ifstream infile(sourceFilePath);
+    if(!infile.is_open())
+        return spdlog::error("Could not open file {0}", sourceFilePath);
+
     std::string line;
     while(std::getline(infile, line)) {
         auto precompilerCommand = ParsePrecompilerCommand(line);

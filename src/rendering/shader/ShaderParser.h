@@ -19,14 +19,12 @@
 #ifndef LIFEENGINE_SHADERPARSER_H
 #define LIFEENGINE_SHADERPARSER_H
 #include <lifepch.h>
-
 #include <utility>
 #include "Shader.h"
 
 class ShaderParser {
 public:
     static Shader ParseShaderFile(const std::string& sourceFilePath);
-    static Shader ConstructShader(std::stringstream* stringStreamArray);
 
 private:
     enum class PrecompilerCommandType : unsigned int {
@@ -50,6 +48,7 @@ private:
     ShaderStage currentStage = ShaderStage::Vertex;
     std::stringstream shaderStageStringStreams[static_cast<int>(ShaderStage::MAX) + 1];
 
+    static Shader ConstructShader(std::stringstream* stringStreamArray);
     static PrecompilerCommandMatch ParsePrecompilerCommand(const std::string& codeLine);
     void InterpretPrecompilerCommand(const PrecompilerCommandMatch& commandMatch);
     void ParseFile(const std::string& sourceFilePath);
