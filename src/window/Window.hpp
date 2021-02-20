@@ -3,10 +3,10 @@
 #include "events/Event.hpp"
 
 struct WindowProperties {
-    std::string Title;
+    std::string title;
     unsigned int width, height;
     explicit WindowProperties(std::string  title = "Life Engine", unsigned int width = 900, unsigned int height = 600)
-            : Title(std::move(title)), width(width), height(height) {}
+            : title(std::move(title)), width(width), height(height) {}
 };
 
 using EventCallbackFunc = std::function<void(Event&)>;
@@ -21,7 +21,7 @@ public:
     virtual void SetHeight(unsigned int v) = 0;
     virtual void SetDimensions(unsigned int w, unsigned int h) = 0;
     virtual void SetEventCallback(const EventCallbackFunc& callback) = 0;
-    virtual void SetVSync(bool enable = true) = 0;
+    virtual void SetVSync(bool enable) = 0;
     virtual bool IsVSyncEnabled() const = 0;
     virtual void* GetAPIWindow() = 0;
     static Window* Create(const WindowProperties& properties = WindowProperties());

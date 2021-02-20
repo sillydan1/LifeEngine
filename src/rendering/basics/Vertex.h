@@ -16,24 +16,26 @@
     You should have received a copy of the GNU General Public License
     along with lifeengine.  If not, see <https://www.gnu.org/licenses/>.
  */
-#include "Time.h"
-#include <tinytimer/Timer.hpp>
+#ifndef LIFEENGINE_VERTEX_H
+#define LIFEENGINE_VERTEX_H
+#include <lifepch.h>
 
-Timer<float> frame_timer = Timer<float>();
-Timer<double> timer = Timer<double>();
-double frame_time = 0.0;
+struct VertexAttribute {
+    GLuint layoutLocation;
+    GLuint size;
+    GLuint dataType;
+    bool normalized;
+    GLuint stride;
+    GLuint offset;
+    void Bind();
+};
 
-double Time::GetGlobalTime() {
-    return timer.seconds_elapsed();
-}
-float Time::GetFrameTime() {
-    return frame_time;
-}
+struct Vertex {
+    glm::vec3 position;
+    glm::vec3 color;
+    static std::vector<VertexAttribute> GetVertexAttributes();
+};
 
-void Time::GameStart() {
-    timer.start();
-}
-void Time::FrameEnd() {
-    frame_time = frame_timer.seconds_elapsed();
-    frame_timer.start();
-}
+inline GLuint TO_GL_BOOL(bool b);
+
+#endif //LIFEENGINE_VERTEX_H

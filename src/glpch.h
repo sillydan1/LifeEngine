@@ -16,24 +16,11 @@
     You should have received a copy of the GNU General Public License
     along with lifeengine.  If not, see <https://www.gnu.org/licenses/>.
  */
-#include "Time.h"
-#include <tinytimer/Timer.hpp>
+#ifndef LIFEENGINE_GLPCH_H
+#define LIFEENGINE_GLPCH_H
 
-Timer<float> frame_timer = Timer<float>();
-Timer<double> timer = Timer<double>();
-double frame_time = 0.0;
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+#include <GL/gl.h>
 
-double Time::GetGlobalTime() {
-    return timer.seconds_elapsed();
-}
-float Time::GetFrameTime() {
-    return frame_time;
-}
-
-void Time::GameStart() {
-    timer.start();
-}
-void Time::FrameEnd() {
-    frame_time = frame_timer.seconds_elapsed();
-    frame_timer.start();
-}
+#endif //LIFEENGINE_GLPCH_H

@@ -1,18 +1,18 @@
 # Copyright (C) 2020 Asger Gitz-Johansen
 # This file is part of life engine.
 #
-#  aaltitoad is free software: you can redistribute it and/or modify
+#  lifeengine is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
 #  the Free Software Foundation, either version 3 of the License, or
 #  (at your option) any later version.
 #
-#  aaltitoad is distributed in the hope that it will be useful,
+#  lifeengine is distributed in the hope that it will be useful,
 #  but WITHOUT ANY WARRANTY; without even the implied warranty of
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #  GNU General Public License for more details.
 #
 #  You should have received a copy of the GNU General Public License
-#  along with aaltitoad.  If not, see <https://www.gnu.org/licenses/>.
+#  along with lifeengine.  If not, see <https://www.gnu.org/licenses/>.
 
 cmake_minimum_required(VERSION 3.7)
 project(lifeengine)
@@ -50,6 +50,19 @@ add_executable(${PROJECT_NAME}
 	src/events/Event.cpp
 
 	src/ecs/Component.cpp
+
+	src/engine/Application.cpp
+	src/SANDBOX/Sandbox.cpp
+	src/SANDBOX/SandboxLayer.cpp
+
+	src/layers/LayerCollection.cpp
+
+	src/rendering/shader/ShaderParser.cpp
+	src/rendering/shader/Shader.cpp
+	src/extensions/stringextensions.cpp
+	src/rendering/basics/Vertex.cpp
+
+	src/rendering/debugging.cpp
 )
 
 target_link_libraries(${PROJECT_NAME}
@@ -61,6 +74,7 @@ target_link_libraries(${PROJECT_NAME}
 )
 
 target_precompile_headers(${PROJECT_NAME} PUBLIC src/lifepch.h)
+target_precompile_headers(${PROJECT_NAME} PUBLIC src/glpch.h)
 
 install(TARGETS ${PROJECT_NAME})
 

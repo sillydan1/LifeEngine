@@ -16,29 +16,16 @@
     You should have received a copy of the GNU General Public License
     along with lifeengine.  If not, see <https://www.gnu.org/licenses/>.
  */
-#include "util/Time.h"
 #include "util/CLIConfig.h"
-#include "window/LinuxWindow.hpp"
+#include "SANDBOX/Sandbox.h"
 
-void EventHandlerStud(Event& e);
-
-bool close = false;
 int main(int argc, char** argv) {
     int errorcode = CLIConfig::InitializeCLIConfig(argc, argv);
-    if(errorcode != 0) return errorcode;
+    if(errorcode != EXIT_SUCCESS)
+        return errorcode;
     // Start the engine
-    auto window = Window::Create(WindowProperties());
-    window->SetEventCallback(EventHandlerStud);
+    auto engine = Sandbox{};
     // Start the game
-    Time::GameStart();
-    while(!close) window->OnUpdate();
-    delete window;
+    engine.GameStart();
     return 0;
-}
-
-void EventHandlerStud(Event& e) {
-    if(e.GetEventType() == EventType::WindowClose)
-        close = true;
-
-    e.SetHandled();
 }

@@ -16,24 +16,32 @@
     You should have received a copy of the GNU General Public License
     along with lifeengine.  If not, see <https://www.gnu.org/licenses/>.
  */
-#include "Time.h"
-#include <tinytimer/Timer.hpp>
+#ifndef LIFEENGINE_SHADER_H
+#define LIFEENGINE_SHADER_H
+#include <glpch.h>
+#include <lifepch.h>
 
-Timer<float> frame_timer = Timer<float>();
-Timer<double> timer = Timer<double>();
-double frame_time = 0.0;
+enum class ShaderStage {
+    Vertex = 0,
+    Fragment = 1,
+    MAX = Fragment
+};
 
-double Time::GetGlobalTime() {
-    return timer.seconds_elapsed();
-}
-float Time::GetFrameTime() {
-    return frame_time;
-}
+struct ShaderProgram {
+    std::string src;
+    GLuint shaderProgram;
+    ShaderStage stage;
+    bool Compile();
+    ~ShaderProgram();
+};
 
-void Time::GameStart() {
-    timer.start();
-}
-void Time::FrameEnd() {
-    frame_time = frame_timer.seconds_elapsed();
-    frame_timer.start();
-}
+struct Shader {
+    GLuint shaderProgram = 0;
+    bool CompileAndLinkShaders(std::vector<ShaderProgram>& programs);
+    static GLuint ConvertShaderStageEnumToOGL(const ShaderStage& stageEnum);
+    bool LinkShaders(std::vector<ShaderProgram>& programs);
+    void Use() const;
+    void Destroy() const;
+};
+
+#endif //LIFEENGINE_SHADER_H

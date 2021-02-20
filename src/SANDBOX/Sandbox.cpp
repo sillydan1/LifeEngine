@@ -16,24 +16,21 @@
     You should have received a copy of the GNU General Public License
     along with lifeengine.  If not, see <https://www.gnu.org/licenses/>.
  */
-#include "Time.h"
-#include <tinytimer/Timer.hpp>
+#include "Sandbox.h"
+#include "SandboxLayer.h"
 
-Timer<float> frame_timer = Timer<float>();
-Timer<double> timer = Timer<double>();
-double frame_time = 0.0;
-
-double Time::GetGlobalTime() {
-    return timer.seconds_elapsed();
-}
-float Time::GetFrameTime() {
-    return frame_time;
+Sandbox::Sandbox() : Application() {
+    window->SetVSync(true);
 }
 
-void Time::GameStart() {
-    timer.start();
+void Sandbox::GameStart() {
+    PushLayer<SandboxLayer>();
+    Application::GameStart();
 }
-void Time::FrameEnd() {
-    frame_time = frame_timer.seconds_elapsed();
-    frame_timer.start();
+
+void Sandbox::HandleApplicationEvent(Event &event) {
+    if(event.GetEventType() == EventType::WindowResize)
+        glViewport(0,0,window->GetWidth(),window->GetHeight());
+
+    Application::HandleApplicationEvent(event);
 }

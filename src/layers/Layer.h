@@ -16,24 +16,27 @@
     You should have received a copy of the GNU General Public License
     along with lifeengine.  If not, see <https://www.gnu.org/licenses/>.
  */
-#include "Time.h"
-#include <tinytimer/Timer.hpp>
+#ifndef LIFEENGINE_LAYER_H
+#define LIFEENGINE_LAYER_H
+#include <lifepch.h>
 
-Timer<float> frame_timer = Timer<float>();
-Timer<double> timer = Timer<double>();
-double frame_time = 0.0;
+#include <utility>
+#include "events/Event.hpp"
 
-double Time::GetGlobalTime() {
-    return timer.seconds_elapsed();
-}
-float Time::GetFrameTime() {
-    return frame_time;
-}
+class Layer {
+public:
+    explicit Layer(std::string layer_name)
+            : m_dbgname(std::move(layer_name)) {}
+    virtual ~Layer() = default;
 
-void Time::GameStart() {
-    timer.start();
-}
-void Time::FrameEnd() {
-    frame_time = frame_timer.seconds_elapsed();
-    frame_timer.start();
-}
+    virtual void OnEvent(Event& event) {}
+    virtual void OnUpdate() {}
+    virtual void OnAttach() { spdlog::trace("[{0}] Layer attached", m_dbgname); }
+    virtual void OnDetach() { spdlog::trace("[{0}] Layer detached", m_dbgname); }
+
+    inline const std::string& GetName() { return m_dbgname; }
+protected:
+    std::string m_dbgname;
+};
+
+#endif //LIFEENGINE_LAYER_H

@@ -18,20 +18,20 @@
  */
 #include "CLIConfig.h"
 
-CLIConfig::CLIConfig() {
+CLIConfig::CLIConfig() : status_code(EXIT_SUCCESS) {
     /// Add/Remove Command Line options here.
     cliOptions = {
             { option_requirement::OPTIONAL,
               {"verbosity",  'v', argument_requirement::REQUIRE_ARG,
                   "[0-6] The level of verbosity. (0: OFF | 1: CRITICAL | 2: ERROR | 3: WARN | 4: INFO | 5: DEBUG | 6: TRACE). Default is 2"} }
     };
-    status_code = EXIT_SUCCESS;
 }
 
 void CLIConfig::ParseCLIOptionsAndCheckForRequirements(int argc, char** argv) {
     auto cliOpts = GetCLIOptionsOnly();
     providedOptions = get_arguments(cliOpts, argc, argv);
     EnsureRequiredOptionsAreProvided();
+    if(this->operator[]("help")) status_code += 1;
 }
 
 std::vector<option_t> CLIConfig::GetCLIOptionsOnly() {
