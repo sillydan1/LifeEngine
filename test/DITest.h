@@ -37,6 +37,7 @@ TEST(DITest, BasicUsagePointers) {
     DI::Set<float*>(ff);
     EXPECT_EQ(ff, DI::Get<float*>());
     ASSERT_FLOAT_EQ(30.0f, *DI::Get<float*>());
+    delete ff;
 }
 
 #endif //LIFEENGINE_DITEST_H
