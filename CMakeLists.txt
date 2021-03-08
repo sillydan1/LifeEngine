@@ -41,6 +41,9 @@ add_definitions(
 add_subdirectory(dep/argvparse)
 add_subdirectory(dep/spdlog)
 
+# 1st party libraries, compiled with CMAKE
+add_subdirectory(src/di)
+
 add_executable(${PROJECT_NAME}
 	src/main.cpp
 	src/util/CLIConfig.cpp
@@ -62,8 +65,6 @@ add_executable(${PROJECT_NAME}
 	src/extensions/stringextensions.cpp
 	src/rendering/basics/Vertex.cpp
 
-	src/di/DI.cpp
-
 	src/rendering/debugging.cpp
 )
 
@@ -73,6 +74,8 @@ target_link_libraries(${PROJECT_NAME}
 	assimp
 
 	spdlog argvparse
+
+	di
 )
 
 target_precompile_headers(${PROJECT_NAME} PUBLIC src/lifepch.h)
