@@ -60,7 +60,7 @@ public:
             std::vector<component_id_t> component_ids{{Ts::ID...}};
             std::sort(component_ids.begin(), component_ids.end());
             for (auto& c : component_ids) {
-                hash_combine<component_id_t, std::hash<component_id_t>>(thing, c);
+                hash_combine<component_id_t>(thing, c);
             }
             component_collections.emplace(std::pair<size_t, entity_ptr>(thing, std::move(coll)));
         }
@@ -88,9 +88,9 @@ public:
             size_t thing = 0;
             std::vector<component_id_t> component_ids{{Ts::ID...}};
             std::sort(component_ids.begin(),component_ids.end());
-            for (auto& c : component_ids) {
-                hash_combine<component_id_t, std::hash<component_id_t>>(thing, c);
-            }
+            for (auto& c : component_ids)
+                hash_combine<component_id_t>(thing, c);
+
             component_collections.emplace(std::pair<size_t, entity_ptr>(thing, std::move(coll)));
         }
         return Entity(comps);

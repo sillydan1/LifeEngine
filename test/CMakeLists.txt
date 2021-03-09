@@ -10,5 +10,6 @@ target_link_libraries(	run_unittests
 	pthread
 # ----
 	di
-		)
+	ecs
+)
 

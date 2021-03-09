@@ -54,7 +54,8 @@ public:
 
         int count = m_components.count(T::ID);
         if(count <= 0) throw std::logic_error("Component not available on this Entity");
-        if(i > count)  throw std::out_of_range(string_formatter() << "Index out of range ("<<i<<"): Entity only has "<<count<<" components of that type!");
+        // TODO: Upgrade to C++20 so that we can get std::format
+        if(i > count)  throw std::out_of_range("Index out of range ({i}): Entity only has '{count}' components of that type!");
 
         auto d = m_components.equal_range(T::ID);
         for (int j = 0; j < i; ++j) {

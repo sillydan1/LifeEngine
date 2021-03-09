@@ -29,7 +29,7 @@ include_directories(
 	src
 )
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(SPDLOG_BUILD_SHARED)
 set(CMAKE_CXX_STANDARD_LIBRARIES -lstdc++fs)
 add_definitions(
@@ -43,6 +43,7 @@ add_subdirectory(dep/spdlog)
 
 # 1st party libraries, compiled with CMAKE
 add_subdirectory(src/di)
+add_subdirectory(src/ecs)
 
 add_executable(${PROJECT_NAME}
 	src/main.cpp
@@ -51,8 +52,6 @@ add_executable(${PROJECT_NAME}
 	src/util/Random.cpp
 	src/window/LinuxWindow.cpp
 	src/events/Event.cpp
-
-	src/ecs/Component.cpp
 
 	src/engine/Application.cpp
 	src/SANDBOX/Sandbox.cpp
@@ -76,6 +75,7 @@ target_link_libraries(${PROJECT_NAME}
 	spdlog argvparse
 
 	di
+	ecs
 )
 
 target_precompile_headers(${PROJECT_NAME} PUBLIC src/lifepch.h)
