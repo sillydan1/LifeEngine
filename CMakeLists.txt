@@ -16,12 +16,21 @@
 
 cmake_minimum_required(VERSION 3.7)
 project(lifeengine)
-find_package(glm REQUIRED)
-find_package(glfw3 REQUIRED)
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
+find_package(GLM REQUIRED)
+find_package(GLFW3 REQUIRED)
 find_package(GLEW REQUIRED)
-find_package(assimp REQUIRED)
+find_package(ASSIMP REQUIRED)
+find_package(OpenGL REQUIRED)
 
+link_directories(${ASSIMP_LIBRARY_DIRS})
 include_directories(
+	${GLM_INCLUDE_DIRS}/../include # MacOS is weird
+	${GLM_INCLUDE_DIRS}
+	${GLFW3_INCLUDE_DIR}
+	${GLEW_INCLUDE_DIR}
+	${ASSIMP_INCLUDE_DIRS}
+	${OPENGL_INCLUDE_DIR}
 	dep/argvparse/include
 	dep/spdlog/include
 	dep/glm/
@@ -31,7 +40,6 @@ include_directories(
 
 set(CMAKE_CXX_STANDARD 20)
 set(SPDLOG_BUILD_SHARED)
-set(CMAKE_CXX_STANDARD_LIBRARIES -lstdc++fs)
 add_definitions(
 		-DGLM_ENABLE_EXPERIMENTAL
 		-DGLFW_INCLUDE_NONE
@@ -69,11 +77,13 @@ add_executable(${PROJECT_NAME}
 
 target_link_libraries(${PROJECT_NAME}
 	pthread
-	glfw GLEW GL
-	assimp
+	${GLFW_LIBRARIES}
+	${OPENGL_LIBRARIES}
+	${ASSIMP_LIBRARIES}
+	glfw
+	GLEW::GLEW
 
 	spdlog argvparse
-
 	di
 	ecs
 )

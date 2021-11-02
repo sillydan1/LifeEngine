@@ -19,8 +19,14 @@
 #ifndef LIFEENGINE_GLPCH_H
 #define LIFEENGINE_GLPCH_H
 
+#if defined(__APPLE__)
 #include <GL/glew.h>
-#include <GLFW/glfw3.h>
+#include <OpenGL/gl.h>
+#else
+#include <GL/glew.h>
 #include <GL/gl.h>
+#endif
+
+#include <GLFW/glfw3.h>
 
 #endif //LIFEENGINE_GLPCH_H
