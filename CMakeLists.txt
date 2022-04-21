@@ -17,10 +17,9 @@
 cmake_minimum_required(VERSION 3.7)
 project(lifeengine)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
-find_package(GLM REQUIRED)
-find_package(GLFW3 REQUIRED)
+find_package(glfw3 REQUIRED)
 find_package(GLEW REQUIRED)
-find_package(ASSIMP REQUIRED)
+find_package(assimp REQUIRED)
 find_package(OpenGL REQUIRED)
 
 link_directories(${ASSIMP_LIBRARY_DIRS})
