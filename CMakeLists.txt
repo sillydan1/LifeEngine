@@ -13,14 +13,19 @@
 #
 #  You should have received a copy of the GNU General Public License
 #  along with lifeengine.  If not, see <https://www.gnu.org/licenses/>.
-
 cmake_minimum_required(VERSION 3.7)
-project(lifeengine)
+project(lifeengine VERSION 3.0.0)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
+include(cmake/CPM.cmake)
 find_package(glfw3 REQUIRED)
 find_package(GLEW REQUIRED)
 find_package(assimp REQUIRED)
 find_package(OpenGL REQUIRED)
+
+CPMAddPackage("gh:sillydan1/argvparse@1.2.2")
+CPMAddPackage("gh:gabime/spdlog@1.8.2")
+CPMAddPackage("gh:g-truc/glm#0.9.9.8")
+CPMAddPackage("gh:sillydan1/tinytimer@1.0.0")
 
 link_directories(${ASSIMP_LIBRARY_DIRS})
 include_directories(
@@ -30,8 +35,10 @@ include_directories(
 	${GLEW_INCLUDE_DIR}
 	${ASSIMP_INCLUDE_DIRS}
 	${OPENGL_INCLUDE_DIR}
-	dep/argvparse/include
-	dep/spdlog/include
+	${argvparse_SOURCE_DIR}/include
+	${spdlog_SOURCE_DIR}/include
+	${glm_SOURCE_DIR}/include
+	${tinytimer_SOURCE_DIR}
 	dep/glm/
 	dep
 	src
@@ -44,14 +51,8 @@ add_definitions(
 		-DGLFW_INCLUDE_NONE
 )
 
-# Third party libraries, compiled with CMAKE
-add_subdirectory(dep/argvparse)
-add_subdirectory(dep/spdlog)
-
-# 1st party libraries, compiled with CMAKE
 add_subdirectory(src/di)
 add_subdirectory(src/ecs)
-
 add_executable(${PROJECT_NAME}
 	src/main.cpp
 	src/util/CLIConfig.cpp

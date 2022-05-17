@@ -23,8 +23,8 @@
 #include "rendering/shader/Shader.h"
 
 class SandboxLayer : public Layer {
-    GLuint VertexBufferObject;
-    GLuint VertexArrayObject;
+    GLuint VertexBufferObject{};
+    GLuint VertexArrayObject{};
     Shader bufferShader;
 public:
     SandboxLayer();

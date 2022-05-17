@@ -17,7 +17,7 @@
     along with lifeengine.  If not, see <https://www.gnu.org/licenses/>.
  */
 #include "Time.h"
-#include <tinytimer/Timer.hpp>
+#include <Timer.hpp>
 
 Timer<float> frame_timer = Timer<float>();
 Timer<double> timer = Timer<double>();
