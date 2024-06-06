@@ -29,7 +29,7 @@ void SandboxLayer::OnAttach() {
     // Initialize OpenGL bindings
     glewInit();
     // Initialize the shader program
-    bufferShader = ShaderParser::ParseShaderFile("../res/shaders/shader.glsl");
+    bufferShader = ShaderParser::ParseShaderFile("res/shaders/shader.glsl");
     // The test mesh buffer
     Mesh triangleMesh { .vertices = { Vertex{.position = glm::vec3(-0.5f, -0.5f, 0.0f),
                                              .color    = glm::vec3( 0.0f,  0.0f, 1.0f)},

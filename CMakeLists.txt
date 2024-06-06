@@ -47,8 +47,8 @@ include_directories(
 set(CMAKE_CXX_STANDARD 20)
 set(SPDLOG_BUILD_SHARED)
 add_definitions(
-		-DGLM_ENABLE_EXPERIMENTAL
-		-DGLFW_INCLUDE_NONE
+	-DGLM_ENABLE_EXPERIMENTAL
+	-DGLFW_INCLUDE_NONE
 )
 
 add_subdirectory(src/di)
@@ -95,4 +95,4 @@ install(TARGETS ${PROJECT_NAME})
 
 # =============================== UNIT TESTS ================================= #
 enable_testing()
-add_subdirectory( test )
+add_subdirectory(test)
