@@ -16,13 +16,28 @@
     You should have received a copy of the GNU General Public License
     along with lifeengine.  If not, see <https://www.gnu.org/licenses/>.
  */
-#include "util/CLIConfig.h"
+#include <clipp.h>
+#include <spdlog/common.h>
 #include "SANDBOX/Sandbox.h"
+#include "config.h"
 
-int main(int argc, char** argv) {
-    int errorcode = CLIConfig::InitializeCLIConfig(argc, argv);
-    if(errorcode != EXIT_SUCCESS)
-        return errorcode;
+int main(const int argc, char* argv[]) {
+    int verbosity = 0;
+    bool version;
+    auto cli = clipp::group(
+        clipp::option("-v", "--vebosity").set(verbosity).doc("set verbosity [0-6]"),
+        clipp::option("-V", "--version").set(version).doc("show version")
+    );
+
+    if(!clipp::parse(argc, argv, cli)) {
+        std::cout << clipp::make_man_page(cli, argv[0]);
+        return 1;
+    }
+    if(version) {
+        std::cout << PROJECT_NAME << " " << PROJECT_VER << std::endl;
+        return 0;
+    }
+
     // Start the engine
     auto engine = Sandbox{};
     // Start the game

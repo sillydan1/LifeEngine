@@ -13,32 +13,36 @@
 #
 #  You should have received a copy of the GNU General Public License
 #  along with lifeengine.  If not, see <https://www.gnu.org/licenses/>.
-cmake_minimum_required(VERSION 3.7)
+cmake_minimum_required(VERSION 3.25.0)
 project(lifeengine VERSION 4.0.0)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
-include(cmake/CPM.cmake)
+set(CONFIG_IN_FILE src/config.h.in)
+set(CONFIG_OUT_FILE config.h)
+include(CPM)
+include(VER)
 find_package(glfw3 REQUIRED)
 find_package(GLEW REQUIRED)
 find_package(assimp REQUIRED)
 find_package(OpenGL REQUIRED)
 
-CPMAddPackage("gh:sillydan1/argvparse@1.2.2")
+CPMAddPackage("gh:muellan/clipp@1.2.3")
 CPMAddPackage("gh:gabime/spdlog@1.8.2")
 CPMAddPackage("gh:g-truc/glm#0.9.9.8")
 CPMAddPackage("gh:sillydan1/tinytimer@1.0.0")
 
 link_directories(${ASSIMP_LIBRARY_DIRS})
 include_directories(
+	${CMAKE_CURRENT_BINARY_DIR}
 	${GLM_INCLUDE_DIRS}/../include # MacOS is weird
 	${GLM_INCLUDE_DIRS}
 	${GLFW3_INCLUDE_DIR}
 	${GLEW_INCLUDE_DIR}
 	${ASSIMP_INCLUDE_DIRS}
 	${OPENGL_INCLUDE_DIR}
-	${argvparse_SOURCE_DIR}/include
 	${spdlog_SOURCE_DIR}/include
 	${glm_SOURCE_DIR}/include
 	${tinytimer_SOURCE_DIR}
+	${clipp_SOURCE_DIR}/include
 	dep/glm/
 	dep
 	src
@@ -55,35 +59,29 @@ add_subdirectory(src/di)
 add_subdirectory(src/ecs)
 add_executable(${PROJECT_NAME}
 	src/main.cpp
-	src/util/CLIConfig.cpp
 	src/util/Time.cpp
 	src/util/Random.cpp
 	src/window/LinuxWindow.cpp
 	src/events/Event.cpp
-
 	src/engine/Application.cpp
 	src/SANDBOX/Sandbox.cpp
 	src/SANDBOX/SandboxLayer.cpp
-
 	src/layers/LayerCollection.cpp
-
 	src/rendering/shader/ShaderParser.cpp
 	src/rendering/shader/Shader.cpp
 	src/extensions/stringextensions.cpp
 	src/rendering/basics/Vertex.cpp
-
 	src/rendering/debugging.cpp
 )
 
-target_link_libraries(${PROJECT_NAME}
+target_link_libraries(${PROJECT_NAME} PUBLIC
 	pthread
 	${GLFW_LIBRARIES}
 	${OPENGL_LIBRARIES}
 	${ASSIMP_LIBRARIES}
 	glfw
 	GLEW::GLEW
-
-	spdlog argvparse
+	spdlog
 	di
 	ecs
 )
