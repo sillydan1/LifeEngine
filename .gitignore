@@ -4,4 +4,5 @@ cmake-build-debug/
 .idea/
 .DS_Store
 .cache/
+.vscode/
 compile_commands.json

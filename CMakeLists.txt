@@ -28,7 +28,7 @@ find_package(OpenGL REQUIRED)
 CPMAddPackage("gh:muellan/clipp@1.2.3")
 CPMAddPackage("gh:gabime/spdlog@1.8.2")
 CPMAddPackage("gh:g-truc/glm#0.9.9.8")
-CPMAddPackage("gh:sillydan1/tinytimer@1.0.0")
+CPMAddPackage("gh:yalibs/yatimer@1.0.0")
 
 link_directories(${ASSIMP_LIBRARY_DIRS})
 include_directories(
