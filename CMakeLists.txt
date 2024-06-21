@@ -41,8 +41,8 @@ include_directories(
 	${OPENGL_INCLUDE_DIR}
 	${spdlog_SOURCE_DIR}/include
 	${glm_SOURCE_DIR}/include
-	${tinytimer_SOURCE_DIR}
 	${clipp_SOURCE_DIR}/include
+	${yatimer_SOURCE_DIR}/include
 	dep/glm/
 	dep
 	src

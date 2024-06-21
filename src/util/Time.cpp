@@ -17,10 +17,10 @@
     along with lifeengine.  If not, see <https://www.gnu.org/licenses/>.
  */
 #include "Time.h"
-#include <Timer.hpp>
+#include <timer>
 
-Timer<float> frame_timer = Timer<float>();
-Timer<double> timer = Timer<double>();
+ya::timer<float> frame_timer{};
+ya::timer<double> timer{};
 double frame_time = 0.0;
 
 double Time::GetGlobalTime() {
