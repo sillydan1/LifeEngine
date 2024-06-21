@@ -25,7 +25,7 @@ find_package(GLEW REQUIRED)
 find_package(assimp REQUIRED)
 find_package(OpenGL REQUIRED)
 
-CPMAddPackage("gh:muellan/clipp@1.2.3")
+CPMAddPackage("gh:bfgroup/lyra#1.6.1")
 CPMAddPackage("gh:gabime/spdlog@1.8.2")
 CPMAddPackage("gh:g-truc/glm#0.9.9.8")
 CPMAddPackage("gh:yalibs/yatimer@1.0.0")
@@ -41,8 +41,8 @@ include_directories(
 	${OPENGL_INCLUDE_DIR}
 	${spdlog_SOURCE_DIR}/include
 	${glm_SOURCE_DIR}/include
-	${clipp_SOURCE_DIR}/include
 	${yatimer_SOURCE_DIR}/include
+	${lyra_SOURCE_DIR}/include
 	dep/glm/
 	dep
 	src
