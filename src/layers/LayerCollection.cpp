@@ -18,21 +18,21 @@
  */
 #include "LayerCollection.h"
 
-LayerCollection::LayerCollection() : m_layers{}, m_insertionPoint{0} {
+layer_collection::layer_collection() : m_layers{}, m_insertionPoint{0} {
 }
 
-void LayerCollection::PushLayer(const std::shared_ptr<layer>& layer) {
+void layer_collection::push_layer(const std::shared_ptr<layer>& layer) {
     m_layers.emplace(begin() + m_insertionPoint, layer);
     m_insertionPoint++;
     layer->on_attach();
 }
 
-void LayerCollection::PushOverlay(const std::shared_ptr<layer>& overlay) {
+void layer_collection::push_overlay(const std::shared_ptr<layer>& overlay) {
     m_layers.emplace_back(overlay);
     overlay->on_attach();
 }
 
-void LayerCollection::PopLayer(const std::shared_ptr<layer>& layer) {
+void layer_collection::pop_layer(const std::shared_ptr<layer>& layer) {
     auto it = std::find(begin(), end(), layer);
     if(it != end()) {
         m_layers.erase(it);
@@ -41,14 +41,14 @@ void LayerCollection::PopLayer(const std::shared_ptr<layer>& layer) {
     layer->on_detach();
 }
 
-void LayerCollection::PopOverlay(const std::shared_ptr<layer>& overlay) {
+void layer_collection::pop_overlay(const std::shared_ptr<layer>& overlay) {
     auto it = std::find(begin(), end(), overlay);
     if(it != end())
         m_layers.erase(it);
     overlay->on_detach();
 }
 
-LayerCollection::~LayerCollection() {
+layer_collection::~layer_collection() {
     for(auto& layer : m_layers)
         layer->on_detach();
 }

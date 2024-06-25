@@ -20,32 +20,32 @@
 #define ECSNEW_HPP
 #include "Component.hpp"
 #include "Entity.hpp"
-#include "ecs"
+#include "ecs/System.hpp"
+#include "extensions/hash_combine" // TODO: use yahashcombine
 #include <extensions/metafunctions.h>
 #include <lifepch.h>
 
-struct entity_ptr : std::vector<std::shared_ptr<BaseComponent>> {
-    std::string m_name;
-    void ChangeName(const std::string& new_name) {
-        m_name = new_name;
+struct entity_ptr : std::vector<std::shared_ptr<base_component>> {
+    std::string name;
+    void change_name(const std::string& new_name) {
+        name = new_name;
     }
 };
 
-using comp_pair = std::pair<const size_t, std::shared_ptr<BaseComponent>>;
-using shared_collection_t = std::vector<std::shared_ptr<BaseComponent>>;
+using comp_pair = std::pair<const size_t, std::shared_ptr<base_component>>;
+using shared_collection_t = std::vector<std::shared_ptr<base_component>>;
 // ECS = Entities, Components, Systems
-class ECS {
+class ecs {
 public:
-
     template<typename... Ts>
-    Entity makeEntity(Ts&&... initializedTs) {
-        static_assert(are_base_of<BaseComponent, Ts...>::value,
+    entity make_entity(Ts&&... initializedTs) {
+        static_assert(are_base_of<base_component, Ts...>::value,
                       "Can only make entities from Components");
         static_assert(sizeof...(Ts) > 0,
                       "No template argument was provided.");
         comp_initalizer_list comps = {
                 comp_pair(
-                        std::hash<component_id_t >{}(Ts::ID),
+                        std::hash<component_id_t >{}(Ts::id),
                         std::make_shared<Ts>(std::forward<Ts>(initializedTs)))...
         };
         components.insert(comps);
@@ -55,28 +55,27 @@ public:
             for (auto& c : comps) {
                 coll.emplace_back(c.second);
             }
-            coll.ChangeName("Entity");
+            coll.change_name("Entity");
             size_t thing = 0;
-            std::vector<component_id_t> component_ids{{Ts::ID...}};
+            std::vector<component_id_t> component_ids{{Ts::id...}};
             std::sort(component_ids.begin(), component_ids.end());
-            for (auto& c : component_ids) {
+            for (auto& c : component_ids)
                 hash_combine<component_id_t>(thing, c);
-            }
             component_collections.emplace(std::pair<size_t, entity_ptr>(thing, std::move(coll)));
         }
-        return Entity(comps);
+        return entity(comps);
     }
 
     template<typename... Ts>
-    Entity makeEntity() {
-        static_assert(are_base_of<BaseComponent, Ts...>::value,
+    entity make_entity() {
+        static_assert(are_base_of<base_component, Ts...>::value,
                       "Can only make entities from Components");
         static_assert(sizeof...(Ts) > 0,
                       "No template argument was provided.");
         comp_initalizer_list comps = {
                 comp_pair(
-                        std::hash<component_id_t >{}(Ts::ID),
-                        std::shared_ptr<BaseComponent>(new Ts()))...};
+                        std::hash<component_id_t >{}(Ts::id),
+                        std::shared_ptr<base_component>(new Ts()))...};
         components.insert(comps);
         {
             // Register all of these into the component_collections collection
@@ -84,21 +83,21 @@ public:
             for (auto& c : comps) {
                 coll.emplace_back(c.second);
             }
-            coll.ChangeName("Entity");
+            coll.change_name("Entity");
             size_t thing = 0;
-            std::vector<component_id_t> component_ids{{Ts::ID...}};
+            std::vector<component_id_t> component_ids{{Ts::id...}};
             std::sort(component_ids.begin(),component_ids.end());
             for (auto& c : component_ids)
                 hash_combine<component_id_t>(thing, c);
 
             component_collections.emplace(std::pair<size_t, entity_ptr>(thing, std::move(coll)));
         }
-        return Entity(comps);
+        return entity(comps);
     }
-    /// Please note: Removes an entire entity, not just a single component!
-    bool RemoveEntity(size_t hash, std::vector<std::shared_ptr<BaseComponent>>* entity) {
-        for(std::shared_ptr<BaseComponent>& component : *entity) {
-            auto d = components.equal_range(std::hash<component_id_t>{}(component->GetID()));
+    /// NOTE: Removes an entire entity, not just a single component!
+    bool remove_entity(size_t hash, std::vector<std::shared_ptr<base_component>>* entity) {
+        for(std::shared_ptr<base_component>& component : *entity) {
+            auto d = components.equal_range(std::hash<component_id_t>{}(component->get_id()));
             for(auto it = d.first; it != d.second; ++it) {
                 if(it->second.get() == component.get()) {
                     components.erase(it);
@@ -116,12 +115,12 @@ public:
         return false;
     }
 
-    void UpdateSystems(SystemList& list) {
+    void update_systems(SystemList& list) {
         // TODO: Systems with multiple requirements on an entity
         for(auto& system : list) {
             // Extract the components from the collection that this system wants to interact with
             if(system->multi_component) {
-                if(system->filterType == ComponentFilterType::OR) {
+                if(system->filterType == component_filter_type::OR) {
                     /// System acts on a lot of <similar> components.
                     auto cids = system->GetComponentIDs();
                     for(auto& id : cids) {
@@ -147,13 +146,13 @@ public:
         }
     }
     using component_collection_collection_t = std::unordered_multimap<size_t, entity_ptr>;
-    using component_collection_t            = std::unordered_multimap<size_t, std::shared_ptr<BaseComponent>>;
+    using component_collection_t = std::unordered_multimap<size_t, std::shared_ptr<base_component>>;
 
-    component_collection_t& GetAllComponents() { return components; }
-    component_collection_collection_t& GetAllEntities() { return component_collections; }
+    component_collection_t& get_components() { return components; }
+    component_collection_collection_t& get_entities() { return component_collections; }
 private:
     component_collection_collection_t component_collections;
-    component_collection_t            components;
+    component_collection_t components;
 };
 
 #endif //ECS_HPP

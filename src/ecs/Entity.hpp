@@ -18,56 +18,57 @@
  */
 #ifndef ENTITY_HPP
 #define ENTITY_HPP
-class Entity;
+class entity;
 #include <lifepch.h>
 #include <extensions/metafunctions.h>
 #include <extensions/stringextensions.h>
 #include "Component.hpp"
 
-using comp_initalizer_list = std::initializer_list<std::pair<const size_t, std::shared_ptr<BaseComponent>>>;
+using comp_initalizer_list = std::initializer_list<std::pair<const size_t, std::shared_ptr<base_component>>>;
 
-class Entity {
+class entity {
 public:
-    Entity() noexcept : m_components{}, m_is_empty{true} {}
+    entity() noexcept : components{}, empty{true} {}
 
-    explicit Entity(const comp_initalizer_list& components) {
-        m_components.insert(components);
-        m_is_empty = false;
+    explicit entity(const comp_initalizer_list& components) {
+        this->components.insert(components);
+        empty = false;
     }
 
-    inline bool IsEmpty() const { return m_is_empty || m_components.empty(); }
+    inline bool is_empty() const { return empty || components.empty(); }
 
     template<typename T>
-    std::shared_ptr<T> GetComponent() {
-        static_assert(std::is_base_of_v<BaseComponent, T>,
+    std::shared_ptr<T> get_component() {
+        static_assert(std::is_base_of_v<base_component, T>,
             "GetComponent on an ECS Entity: T has to be a specialization of Component<T>");
 
-        auto d = m_components.find(T::ID);
-        if(d == m_components.end()) throw std::logic_error("Component not available on this Entity");
+        auto d = components.find(T::id);
+        if(d == components.end()) throw std::logic_error("Component not available on this Entity");
         return std::static_pointer_cast<T>(d->second);
     }
 
     template<typename T>
-    std::shared_ptr<T> GetComponent(unsigned int i) {
-        static_assert(std::is_base_of_v<BaseComponent, T>,
+    std::shared_ptr<T> get_component(unsigned int i) {
+        static_assert(std::is_base_of_v<base_component, T>,
                       "GetComponent on an ECS Entity: T has to be a specialization of Component<T>");
 
-        int count = m_components.count(T::ID);
-        if(count <= 0) throw std::logic_error("Component not available on this Entity");
+        int count = components.count(T::id);
+        if(count <= 0)
+            throw std::logic_error("Component not available on this Entity");
         // TODO: Upgrade to C++20 so that we can get std::format
-        if(i > count)  throw std::out_of_range("Index out of range ({i}): Entity only has '{count}' components of that type!");
+        if(i > count)
+            throw std::out_of_range("Index out of range ({i}): Entity only has '{count}' components of that type!");
 
-        auto d = m_components.equal_range(T::ID);
-        for (int j = 0; j < i; ++j) {
+        auto d = components.equal_range(T::id);
+        for (int j = 0; j < i; ++j)
             d.first++; // Move the iterator over to the desired place.
-        }
         return std::static_pointer_cast<T>(d.first->second);
     }
 
 private:
-    using component_map_t = std::unordered_multimap<size_t, std::shared_ptr<BaseComponent>>;
-    component_map_t m_components;
-    bool m_is_empty;
+    using component_map_t = std::unordered_multimap<size_t, std::shared_ptr<base_component>>;
+    component_map_t components;
+    bool empty;
 };
 
 #endif //ENTITY_HPP

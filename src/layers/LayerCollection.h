@@ -20,17 +20,16 @@
 #define LIFEENGINE_LAYERSTACK_H
 #include <lifepch.h>
 #include "Layer.h"
-#include "events/Event.hpp"
 
-class LayerCollection {
+class layer_collection {
 public:
-    LayerCollection();
-    ~LayerCollection();
+    layer_collection();
+    ~layer_collection();
 
-    void PushLayer(const std::shared_ptr<layer>& layer);
-    void PushOverlay(const std::shared_ptr<layer>& overlay);
-    void PopLayer(const std::shared_ptr<layer>& layer);
-    void PopOverlay(const std::shared_ptr<layer>& overlay);
+    void push_layer(const std::shared_ptr<layer>& layer);
+    void push_overlay(const std::shared_ptr<layer>& overlay);
+    void pop_layer(const std::shared_ptr<layer>& layer);
+    void pop_overlay(const std::shared_ptr<layer>& overlay);
 
     [[nodiscard]] inline std::vector<std::shared_ptr<layer>>::iterator begin() { return m_layers.begin(); }
     [[nodiscard]] inline std::vector<std::shared_ptr<layer>>::iterator end() { return m_layers.end(); }

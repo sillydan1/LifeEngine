@@ -18,11 +18,11 @@
  */
 #include "Component.hpp"
 
-component_id_t BaseComponent::current_comp_id=0;
+component_id_t base_component::current_comp_id=0;
 
-component_id_t BaseComponent::GetNewComponentID() noexcept  { return current_comp_id++; }
-component_id_t BaseComponent::GetID() const noexcept  { return runtimeID; }
+component_id_t base_component::get_new_component_id() noexcept  { return current_comp_id++; }
+component_id_t base_component::get_id() const noexcept  { return runtimeID; }
 
-bool operator==(const BaseComponent& a, const BaseComponent& b) {
-    return std::hash<BaseComponent>{}(a) == std::hash<BaseComponent>{}(b);
+bool operator==(const base_component& a, const base_component& b) {
+    return std::hash<base_component>{}(a) == std::hash<base_component>{}(b);
 }

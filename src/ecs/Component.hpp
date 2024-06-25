@@ -22,43 +22,43 @@
 
 using component_id_t = unsigned int;
 
-class BaseComponent {
-    friend struct std::hash<BaseComponent>;
+class base_component {
+    friend struct std::hash<base_component>;
     const component_id_t runtimeID;
 protected:
-    explicit BaseComponent(const component_id_t id) : runtimeID{id} { }
-    virtual ~BaseComponent() = default;
+    explicit base_component(const component_id_t id) : runtimeID{id} { }
+    virtual ~base_component() = default;
 
 public:
-    virtual const char* GetComponentName() { return "ERROR"; }
+    virtual const char* get_component_name() { return "ERROR"; }
     static component_id_t current_comp_id;
-    static component_id_t GetNewComponentID() noexcept;
-    [[nodiscard]] component_id_t GetID() const noexcept;
+    static component_id_t get_new_component_id() noexcept;
+    [[nodiscard]] component_id_t get_id() const noexcept;
 };
 
 template<typename T>
-struct Component : public BaseComponent {
-    static const component_id_t ID;
-    Component() : BaseComponent(ID) { }
-    virtual ~Component() = default; // Enable this again when you need any form of virtuality from Component
-    const char* GetComponentName() override { return typeid(T).name(); }
+struct component : public base_component {
+    static const component_id_t id;
+    component() : base_component(id) { }
+    virtual ~component() = default; // Enable this again when you need any form of virtuality from Component
+    const char* get_component_name() override { return typeid(T).name(); }
 };
 
 template<typename T>
-const component_id_t Component<T>::ID(BaseComponent::GetNewComponentID());
-bool operator==(const BaseComponent& a, const BaseComponent& b);
+const component_id_t component<T>::id(base_component::get_new_component_id());
+bool operator==(const base_component& a, const base_component& b);
 
 namespace std {
     template<typename T>
-    struct hash<Component<T>> {
-        inline std::size_t operator()(const Component<T>& c) const noexcept {
-            return std::hash<component_id_t>{}(c.ID);
+    struct hash<component<T>> {
+        inline std::size_t operator()(const component<T>& c) const noexcept {
+            return std::hash<component_id_t>{}(c.id);
         }
     };
 
     template<>
-    struct hash<BaseComponent> {
-        inline std::size_t operator()(const BaseComponent& c) const noexcept {
+    struct hash<base_component> {
+        inline std::size_t operator()(const base_component& c) const noexcept {
             return std::hash<component_id_t>{}(c.runtimeID);
         }
     };

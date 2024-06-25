@@ -22,16 +22,16 @@
 #include <ecs/ecs>
 
 template<typename T>
-struct TestComponent : Component<TestComponent<T>> {
+struct TestComponent : component<TestComponent<T>> {
     T value;
 };
 
 TEST(ECSTest, makeEntityPrimitives) {
-    ECS world{};
-    auto entity = world.makeEntity<TestComponent<float>, TestComponent<int>, TestComponent<float>>();
-    ASSERT_FLOAT_EQ(0.0f, entity.GetComponent<TestComponent<float>>()->value);
-    ASSERT_FLOAT_EQ(0.0f, entity.GetComponent<TestComponent<float>>(1)->value);
-    ASSERT_EQ(0, entity.GetComponent<TestComponent<int>>()->value);
+    ecs world{};
+    auto entity = world.make_entity<TestComponent<float>, TestComponent<int>, TestComponent<float>>();
+    ASSERT_FLOAT_EQ(0.0f, entity.get_component<TestComponent<float>>()->value);
+    ASSERT_FLOAT_EQ(0.0f, entity.get_component<TestComponent<float>>(1)->value);
+    ASSERT_EQ(0, entity.get_component<TestComponent<int>>()->value);
 }
 
 #endif //LIFEENGINE_ECSTEST_H

@@ -23,7 +23,7 @@
 #include "Component.hpp"
 #include <extensions/hash_combine>
 
-enum class ComponentFilterType {
+enum class component_filter_type {
     AND,
     OR
 };
@@ -34,18 +34,18 @@ class System {
 public:
     size_t component_filter; // TODO: Optional components
     bool multi_component;
-    ComponentFilterType filterType;
+    component_filter_type filterType;
 
-    System() : finalized{false}, component_filter{}, multi_component{false}, filterType{ComponentFilterType::AND} {}
+    System() : finalized{false}, component_filter{}, multi_component{false}, filterType{component_filter_type::AND} {}
     virtual ~System() = default;
     // TODO: Systems should <act> on collections of components (entities)
     // TODO: Systems should "say" what types of entities they want to act on
 
-    virtual void Update(const std::shared_ptr<BaseComponent>& component) {
+    virtual void Update(const std::shared_ptr<base_component>& component) {
 
     }
 
-    virtual void UpdateMultiple(const std::vector<std::shared_ptr<BaseComponent>>& components) {
+    virtual void UpdateMultiple(const std::vector<std::shared_ptr<base_component>>& components) {
 
     }
 
@@ -54,7 +54,7 @@ public:
     }
 
 protected:
-    void SetComponentFilterType(const ComponentFilterType& afilterType) {
+    void SetComponentFilterType(const component_filter_type& afilterType) {
         filterType = afilterType;
     }
 
@@ -73,7 +73,7 @@ protected:
                 component_filter = std::hash<component_id_t>{}(m_comp_ids[0]);
 
             finalized = true;
-            if(filterType == ComponentFilterType::AND)
+            if(filterType == component_filter_type::AND)
                 m_comp_ids.clear();
         } else
             spdlog::error("ECS System is being finalized more than once!");
