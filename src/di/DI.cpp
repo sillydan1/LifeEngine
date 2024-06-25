@@ -17,4 +17,4 @@
     along with lifeengine.  If not, see <https://www.gnu.org/licenses/>.
  */
 #include "DI.h"
-std::unordered_map<std::string, std::any> DI::instances{};
+std::unordered_map<std::string, std::any> di::instances{};

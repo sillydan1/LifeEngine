@@ -22,21 +22,21 @@
 #include <di/DI.h>
 
 TEST(DITest, BasicUsage) {
-    DI::Set<float>(30.0f);
-    ASSERT_FLOAT_EQ(30.0f, DI::Get<float>());
+    di::Set<float>(30.0f);
+    ASSERT_FLOAT_EQ(30.0f, di::Get<float>());
 }
 
 TEST(DITest, BasicUsageRefferences) {
     auto ff = float(30.0f);
-    DI::Set<float&>(ff);
-    ASSERT_FLOAT_EQ(30.0f, DI::Get<float&>());
+    di::Set<float&>(ff);
+    ASSERT_FLOAT_EQ(30.0f, di::Get<float&>());
 }
 
 TEST(DITest, BasicUsagePointers) {
     auto* ff = new float(30.0f);
-    DI::Set<float*>(ff);
-    EXPECT_EQ(ff, DI::Get<float*>());
-    ASSERT_FLOAT_EQ(30.0f, *DI::Get<float*>());
+    di::Set<float*>(ff);
+    EXPECT_EQ(ff, di::Get<float*>());
+    ASSERT_FLOAT_EQ(30.0f, *di::Get<float*>());
     delete ff;
 }
 

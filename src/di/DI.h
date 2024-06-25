@@ -20,7 +20,7 @@
 #define LIFEENGINE_DI_H
 #include <lifepch.h>
 
-struct DI {
+struct di {
     template<typename T>
     static T Get() {
         return std::any_cast<T>(instances[typeid(T).name()]);
