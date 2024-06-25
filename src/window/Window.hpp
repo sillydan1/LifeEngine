@@ -9,7 +9,7 @@ struct WindowProperties {
             : title(std::move(title)), width(width), height(height) {}
 };
 
-using EventCallbackFunc = std::function<void(Event&)>;
+using EventCallbackFunc = std::function<void(event&)>;
 
 class Window {
 public:

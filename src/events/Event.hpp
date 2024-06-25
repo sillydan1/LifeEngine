@@ -2,7 +2,7 @@
 #define EVENT_HPP
 #include <lifepch.h>
 
-enum class EventType {
+enum class event_type {
     None = 0,
     WindowClose, WindowResize, WindowFocus, WindowLostFocus, WindowMoved,
     RenderResize,
@@ -11,7 +11,7 @@ enum class EventType {
     MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled
 };
 
-enum class EventCategory {
+enum class event_category {
     None = 0,
     EventCategoryApplication = BIT(0),
     EventCategoryInput = BIT(1),
@@ -19,54 +19,54 @@ enum class EventCategory {
     EventCategoryMouse = BIT(3),
     EventCategoryMouseButton = BIT(4)
 };
-EventCategory operator|(EventCategory a, EventCategory b);
+event_category operator|(event_category a, event_category b);
 
-#define EVENT_CLASS_TYPE(x) static EventType GetStaticEventType() { return EventType::x; }\
-    virtual EventType GetEventType() const override { return GetStaticEventType(); }\
-    virtual const char* GetName() const override { return #x ; }
-#define EVENT_CLASS_CATEGORY(x) virtual EventCategory GetEventCategory() const override { return x; }
-#define EVENT_DEFAULT_TOSTRING(classname) std::string ToString() const { return #classname ; }
+#define EVENT_CLASS_TYPE(x) static event_type get_static_event_type() { return event_type::x; }\
+    virtual event_type get_event_type() const override { return get_static_event_type(); }\
+    virtual const char* get_name() const override { return #x ; }
+#define EVENT_CLASS_CATEGORY(x) virtual event_category get_event_category() const override { return x; }
+#define EVENT_DEFAULT_TOSTRING(classname) std::string to_string() const { return #classname ; }
 
-class Event {
-    friend class EventsDispatcher;
+class event {
+    friend class events_dispatcher;
 public:
-    virtual EventType GetEventType() const = 0;
-    virtual EventCategory GetEventCategory() const = 0;
-    virtual const char* GetName() const = 0;
-    virtual std::string ToString() const = 0;
-    virtual void SetHandled() { m_handled = true; }
-    virtual bool IsHandled() { return m_handled; }
+    virtual event_type get_event_type() const = 0;
+    virtual event_category get_event_category() const = 0;
+    virtual const char* get_name() const = 0;
+    virtual std::string to_string() const = 0;
+    virtual void set_handled() { handled = true; }
+    virtual bool is_handled() { return handled; }
 
-    virtual bool IsInCategory(EventCategory category) {
-        return static_cast<int>(GetEventCategory()) & static_cast<int>(category);
+    virtual bool is_in_category(event_category category) {
+        return static_cast<int>(get_event_category()) & static_cast<int>(category);
     }
 
 protected:
-    bool m_handled = false;
+    bool handled = false;
 };
 
-inline std::ostream& operator<<(std::ostream& os, const Event& e) {
-    return os << e.ToString();
+inline std::ostream& operator<<(std::ostream& os, const event& e) {
+    return os << e.to_string();
 }
 
-class EventsDispatcher {
+class events_dispatcher {
     template<typename T>
-    using EventFn = std::function<bool(T&)>;
+    using eventfn = std::function<bool(T&)>;
 public:
-    EventsDispatcher(Event& event)
+    events_dispatcher(event& event)
             : m_event(event) {}
 
     template<typename T>
-    bool dispatch(EventFn<T> func) {
-        if(m_event.GetEventType() == T::GetStaticEventType()) {
-            m_event.m_handled = func((T&) m_event);
+    bool dispatch(eventfn<T> func) {
+        if(m_event.get_event_type() == T::get_static_event_type()) {
+            m_event.handled = func((T&) m_event);
             return true;
         }
         return false;
     }
 
 private:
-    Event& m_event;
+    event& m_event;
 };
 
 #endif //CLASSNAME_HPP

@@ -2,11 +2,11 @@
 #define KEYEVENTS_HPP
 #include "Event.hpp"
 
-class KeyEvent : public Event {
+class KeyEvent : public event {
 public:
     int getKeyCode() const { return m_keycode; }
 
-    EVENT_CLASS_CATEGORY(EventCategory::EventCategoryKeyboard | EventCategory::EventCategoryInput);
+    EVENT_CLASS_CATEGORY(event_category::EventCategoryKeyboard | event_category::EventCategoryInput);
 protected:
     KeyEvent(int keycode)
             : m_keycode(keycode) {}
@@ -21,7 +21,7 @@ public:
 
     EVENT_CLASS_TYPE(KeyPressed);
 
-    virtual std::string ToString() const override {
+    virtual std::string to_string() const override {
         std::stringstream ss;
         ss << "KeyPressedEvent: " << m_keycode;
         if(m_repeatCount > 0)
@@ -42,7 +42,7 @@ public:
 
     EVENT_CLASS_TYPE(KeyReleased);
 
-    virtual std::string ToString() const override {
+    virtual std::string to_string() const override {
         std::stringstream ss;
         ss << "KeyReleasedEvent: " << m_keycode;
         return ss.str();

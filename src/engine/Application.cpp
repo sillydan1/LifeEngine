@@ -29,21 +29,21 @@ application::application()
     window->SetEventCallback(FNBIND(propagate_event_across_layers));
 }
 
-void application::propagate_event_across_layers(Event& event) {
-    if(event.GetEventCategory() == EventCategory::EventCategoryApplication)
+void application::propagate_event_across_layers(event& event) {
+    if(event.get_event_category() == event_category::EventCategoryApplication)
         handle_application_event(event);
     for(auto& layer : layers) layer->OnEvent(event);
-    event.SetHandled();
+    event.set_handled();
 }
 
-void application::handle_application_event(Event &event) {
-    switch (event.GetEventType()) {
-        case EventType::WindowClose:
+void application::handle_application_event(event &event) {
+    switch (event.get_event_type()) {
+        case event_type::WindowClose:
             isRunning = false; break;
         default:
             break;
     }
-    event.SetHandled();
+    event.set_handled();
 }
 
 void application::game_start() {

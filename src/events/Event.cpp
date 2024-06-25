@@ -1,5 +1,5 @@
 #include "Event.hpp"
 
-EventCategory operator|(EventCategory a, EventCategory b) {
-    return EventCategory(int(a) | int(b));
+event_category operator|(event_category a, event_category b) {
+    return event_category(int(a) | int(b));
 }

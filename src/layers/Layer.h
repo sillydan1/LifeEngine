@@ -29,7 +29,7 @@ public:
             : m_dbgname(std::move(layer_name)) {}
     virtual ~Layer() = default;
 
-    virtual void OnEvent(Event& event) {}
+    virtual void OnEvent(event& event) {}
     virtual void OnUpdate() {}
     virtual void OnAttach() { spdlog::trace("[{0}] Layer attached", m_dbgname); }
     virtual void OnDetach() { spdlog::trace("[{0}] Layer detached", m_dbgname); }

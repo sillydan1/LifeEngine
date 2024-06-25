@@ -28,8 +28,8 @@ void sandbox::game_start() {
     application::game_start();
 }
 
-void sandbox::handle_application_event(Event &event) {
-    if(event.GetEventType() == EventType::WindowResize)
+void sandbox::handle_application_event(event &event) {
+    if(event.get_event_type() == event_type::WindowResize)
         glViewport(0,0,window->GetWidth(),window->GetHeight());
 
     application::handle_application_event(event);

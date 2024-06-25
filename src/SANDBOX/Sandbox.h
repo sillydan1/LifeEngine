@@ -24,7 +24,7 @@ class sandbox : application {
 public:
     sandbox();
     void game_start() override;
-    void handle_application_event(Event& event) override;
+    void handle_application_event(event& event) override;
 };
 
 #endif //LIFEENGINE_SANDBOX_H
