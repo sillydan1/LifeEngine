@@ -19,16 +19,16 @@
 #include "Sandbox.h"
 #include "SandboxLayer.h"
 
-Sandbox::Sandbox() : Application() {
+sandbox::sandbox() : Application() {
     window->SetVSync(true);
 }
 
-void Sandbox::GameStart() {
+void sandbox::GameStart() {
     PushLayer<SandboxLayer>();
     Application::GameStart();
 }
 
-void Sandbox::HandleApplicationEvent(Event &event) {
+void sandbox::HandleApplicationEvent(Event &event) {
     if(event.GetEventType() == EventType::WindowResize)
         glViewport(0,0,window->GetWidth(),window->GetHeight());
 
