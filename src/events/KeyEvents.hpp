@@ -2,50 +2,48 @@
 #define KEYEVENTS_HPP
 #include "Event.hpp"
 
-class KeyEvent : public event {
+class key_event : public event {
 public:
-    int getKeyCode() const { return m_keycode; }
+    int get_key_code() const { return keycode; }
 
     EVENT_CLASS_CATEGORY(event_category::EventCategoryKeyboard | event_category::EventCategoryInput);
 protected:
-    KeyEvent(int keycode)
-            : m_keycode(keycode) {}
+    key_event(int keycode)
+            : keycode(keycode) {}
 
-    int m_keycode;
+    int keycode;
 };
 
-class KeyPressedEvent : public KeyEvent {
+class key_pressed_event : public key_event {
 public:
-    KeyPressedEvent(int keycode, int repeatCount)
-            : KeyEvent(keycode), m_repeatCount(repeatCount) {}
+    key_pressed_event(int keycode, int repeatCount)
+            : key_event{keycode}, repeat_count{repeatCount} {}
 
     EVENT_CLASS_TYPE(KeyPressed);
 
     virtual std::string to_string() const override {
         std::stringstream ss;
-        ss << "KeyPressedEvent: " << m_keycode;
-        if(m_repeatCount > 0)
-            ss << "\t repeated: " << m_repeatCount;
+        ss << "key_pressed_event: " << keycode;
+        if(repeat_count > 0)
+            ss << "\t repeated: " << repeat_count;
         return ss.str();
     }
 
-    inline const int getRepeatCount() const { return m_repeatCount; }
+    inline const int getRepeatCount() const { return repeat_count; }
 
 protected:
-    int m_repeatCount;
+    int repeat_count;
 };
 
-class KeyReleasedEvent : public KeyEvent {
+class key_released_event : public key_event {
 public:
-    KeyReleasedEvent(int keycode)
-            : KeyEvent(keycode) {}
+    key_released_event(int keycode)
+            : key_event(keycode) {}
 
     EVENT_CLASS_TYPE(KeyReleased);
 
     virtual std::string to_string() const override {
-        std::stringstream ss;
-        ss << "KeyReleasedEvent: " << m_keycode;
-        return ss.str();
+        return "key_released_event: " + std::to_string(keycode);
     }
 };
 

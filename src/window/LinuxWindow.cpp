@@ -82,17 +82,17 @@ void LinuxWindow::SetupWindowCallbacks() {
         WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(wi));
         switch (action) {
             case GLFW_PRESS: {
-                KeyPressedEvent e(key, 0);
+                key_pressed_event e(key, 0);
                 data.eventcallback(e);
                 break;
             }
             case GLFW_RELEASE: {
-                KeyReleasedEvent e(key);
+                key_released_event e(key);
                 data.eventcallback(e);
                 break;
             }
             case GLFW_REPEAT: {
-                KeyPressedEvent e(key, 1);
+                key_pressed_event e(key, 1);
                 data.eventcallback(e);
                 break;
             }
