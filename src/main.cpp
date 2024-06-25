@@ -49,6 +49,6 @@ int main(const int argc, char* argv[]) {
     spdlog::set_level(static_cast<spdlog::level::level_enum>(std::max(SPDLOG_LEVEL_OFF - verbosity, 0)));
     spdlog::debug("log level set to {}", verbosity);
     auto engine = sandbox{};
-    engine.GameStart();
+    engine.game_start();
     return 0;
 }

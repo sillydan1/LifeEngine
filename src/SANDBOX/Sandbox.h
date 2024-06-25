@@ -20,11 +20,11 @@
 #define LIFEENGINE_SANDBOX_H
 #include "engine/Application.h"
 
-class sandbox : Application {
+class sandbox : application {
 public:
     sandbox();
-    void GameStart() override;
-    void HandleApplicationEvent(Event& event) override;
+    void game_start() override;
+    void handle_application_event(Event& event) override;
 };
 
 #endif //LIFEENGINE_SANDBOX_H

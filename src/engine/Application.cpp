@@ -21,22 +21,22 @@
 #include <util/Time.h>
 #include "Application.h"
 
-Application::Application()
+application::application()
  : isRunning{true},
    window{Window::Create(WindowProperties{})},
    layers{}
 {
-    window->SetEventCallback(FNBIND(PropagateEventAcrossLayers));
+    window->SetEventCallback(FNBIND(propagate_event_across_layers));
 }
 
-void Application::PropagateEventAcrossLayers(Event& event) {
+void application::propagate_event_across_layers(Event& event) {
     if(event.GetEventCategory() == EventCategory::EventCategoryApplication)
-        HandleApplicationEvent(event);
+        handle_application_event(event);
     for(auto& layer : layers) layer->OnEvent(event);
     event.SetHandled();
 }
 
-void Application::HandleApplicationEvent(Event &event) {
+void application::handle_application_event(Event &event) {
     switch (event.GetEventType()) {
         case EventType::WindowClose:
             isRunning = false; break;
@@ -46,7 +46,7 @@ void Application::HandleApplicationEvent(Event &event) {
     event.SetHandled();
 }
 
-void Application::GameStart() {
+void application::game_start() {
     Time::GameStart();
     while(isRunning) {
         for(auto& layer : layers)

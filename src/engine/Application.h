@@ -23,20 +23,20 @@
 #include "window/Window.hpp"
 #include "layers/LayerCollection.h"
 
-class Application {
+class application {
 protected:
     bool isRunning;
     Window* window;
     LayerCollection layers;
 public:
-    Application();
-    virtual ~Application() = default;
-    void PropagateEventAcrossLayers(Event& event);
-    virtual void GameStart();
-    virtual void HandleApplicationEvent(Event& event);
-    inline void PushLayer(const std::shared_ptr<Layer>& layer) { layers.PushLayer(layer); }
+    application();
+    virtual ~application() = default;
+    void propagate_event_across_layers(Event& event);
+    virtual void game_start();
+    virtual void handle_application_event(Event& event);
+    inline void push_layer(const std::shared_ptr<Layer>& layer) { layers.PushLayer(layer); }
     template<typename T, typename... Args> inline void PushLayer(Args... args) { layers.PushLayer(std::static_pointer_cast<Layer>(std::make_shared<T>(args...))); }
-    inline void OverlayLayer(const std::shared_ptr<Layer>& layer) { layers.PushOverlay(layer); }
+    inline void overlay_layer(const std::shared_ptr<Layer>& layer) { layers.PushOverlay(layer); }
     template<typename T, typename... Args> inline void OverlayLayer(Args... args) { layers.PushOverlay(std::static_pointer_cast<Layer>(std::make_shared<T>(args...))); }
 };
 
