@@ -66,7 +66,7 @@ void LinuxWindow::SetupWindowCallbacks() {
 
     glfwSetWindowSizeCallback(m_window, [](GLFWwindow* wi, int w, int h) {
         WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(wi));
-        WindowResizeEvent event(w, h);
+        window_resize_event event(w, h);
         data.width = w;
         data.height = h;
         data.eventcallback(event);
@@ -74,7 +74,7 @@ void LinuxWindow::SetupWindowCallbacks() {
 
     glfwSetWindowCloseCallback(m_window, [](GLFWwindow* wi) {
         WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(wi));
-        WindowCloseEvent event;
+        window_close_event event;
         data.eventcallback(event);
     });
 
