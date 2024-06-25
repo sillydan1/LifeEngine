@@ -32,7 +32,8 @@ application::application()
 void application::propagate_event_across_layers(event& event) {
     if(event.get_event_category() == event_category::EventCategoryApplication)
         handle_application_event(event);
-    for(auto& layer : layers) layer->OnEvent(event);
+    for(auto& layer : layers)
+        layer->on_event(event);
     event.set_handled();
 }
 
@@ -50,7 +51,7 @@ void application::game_start() {
     Time::GameStart();
     while(isRunning) {
         for(auto& layer : layers)
-            layer->OnUpdate();
+            layer->on_update();
         window->OnUpdate();
     }
     delete window;

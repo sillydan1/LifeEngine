@@ -24,12 +24,12 @@ LayerCollection::LayerCollection() : m_layers{}, m_insertionPoint{0} {
 void LayerCollection::PushLayer(const std::shared_ptr<layer>& layer) {
     m_layers.emplace(begin() + m_insertionPoint, layer);
     m_insertionPoint++;
-    layer->OnAttach();
+    layer->on_attach();
 }
 
 void LayerCollection::PushOverlay(const std::shared_ptr<layer>& overlay) {
     m_layers.emplace_back(overlay);
-    overlay->OnAttach();
+    overlay->on_attach();
 }
 
 void LayerCollection::PopLayer(const std::shared_ptr<layer>& layer) {
@@ -38,16 +38,17 @@ void LayerCollection::PopLayer(const std::shared_ptr<layer>& layer) {
         m_layers.erase(it);
         m_insertionPoint--;
     }
-    layer->OnDetach();
+    layer->on_detach();
 }
 
 void LayerCollection::PopOverlay(const std::shared_ptr<layer>& overlay) {
     auto it = std::find(begin(), end(), overlay);
     if(it != end())
         m_layers.erase(it);
-    overlay->OnDetach();
+    overlay->on_detach();
 }
 
 LayerCollection::~LayerCollection() {
-    for(auto& layer : m_layers) layer->OnDetach();
+    for(auto& layer : m_layers)
+        layer->on_detach();
 }

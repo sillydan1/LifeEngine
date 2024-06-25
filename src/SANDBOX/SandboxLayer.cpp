@@ -39,9 +39,9 @@ void sandbox_layer::on_attach() {
                                              .color    = glm::vec3( 1.0f,  0.0f, 0.0f)}
     } };
     // Create and bind a vertex array object, so binding is easy later
-    glGenVertexArrays(1, &ertex_array_object);
+    glGenVertexArrays(1, &vertex_array_object);
     glGenBuffers(1, &vertex_buffer_object);
-    glBindVertexArray(ertex_array_object);
+    glBindVertexArray(vertex_array_object);
     glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_object);
     glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * triangleMesh.vertices.size(), triangleMesh.vertices.data(), GL_STATIC_DRAW);
     // Bind the vertex attributes to the vertex array object
@@ -58,7 +58,7 @@ void sandbox_layer::on_update() {
     glClear(GL_COLOR_BUFFER_BIT);
 
     buffer_shader.Use();
-    glBindVertexArray(ertex_array_object);
+    glBindVertexArray(vertex_array_object);
     glDrawArrays(GL_TRIANGLES, 0, 3);
 }
 
