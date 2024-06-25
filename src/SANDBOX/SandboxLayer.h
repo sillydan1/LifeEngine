@@ -22,15 +22,15 @@
 #include "layers/Layer.h"
 #include "rendering/shader/Shader.h"
 
-class SandboxLayer : public Layer {
-    GLuint VertexBufferObject{};
-    GLuint VertexArrayObject{};
-    Shader bufferShader;
+class sandbox_layer : public layer {
+    GLuint vertex_buffer_object{};
+    GLuint vertex_array_object{};
+    Shader buffer_shader;
 public:
-    SandboxLayer();
-    void OnAttach() override;
-    void OnDetach() override;
-    void OnUpdate() override;
+    sandbox_layer();
+    void on_attach() override;
+    void on_detach() override;
+    void on_update() override;
 };
 
 #endif //LIFEENGINE_SANDBOXLAYER_H

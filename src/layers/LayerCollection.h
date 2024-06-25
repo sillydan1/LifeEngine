@@ -27,16 +27,16 @@ public:
     LayerCollection();
     ~LayerCollection();
 
-    void PushLayer(const std::shared_ptr<Layer>& layer);
-    void PushOverlay(const std::shared_ptr<Layer>& overlay);
-    void PopLayer(const std::shared_ptr<Layer>& layer);
-    void PopOverlay(const std::shared_ptr<Layer>& overlay);
+    void PushLayer(const std::shared_ptr<layer>& layer);
+    void PushOverlay(const std::shared_ptr<layer>& overlay);
+    void PopLayer(const std::shared_ptr<layer>& layer);
+    void PopOverlay(const std::shared_ptr<layer>& overlay);
 
-    [[nodiscard]] inline std::vector<std::shared_ptr<Layer>>::iterator begin() { return m_layers.begin(); }
-    [[nodiscard]] inline std::vector<std::shared_ptr<Layer>>::iterator end() { return m_layers.end(); }
+    [[nodiscard]] inline std::vector<std::shared_ptr<layer>>::iterator begin() { return m_layers.begin(); }
+    [[nodiscard]] inline std::vector<std::shared_ptr<layer>>::iterator end() { return m_layers.end(); }
     [[nodiscard]] inline size_t size() const { return m_layers.size(); }
 private:
-    std::vector<std::shared_ptr<Layer>> m_layers;
+    std::vector<std::shared_ptr<layer>> m_layers;
     unsigned int m_insertionPoint = 0;
 };
 

@@ -24,7 +24,7 @@ sandbox::sandbox() : application() {
 }
 
 void sandbox::game_start() {
-    PushLayer<SandboxLayer>();
+    PushLayer<sandbox_layer>();
     application::game_start();
 }
 
