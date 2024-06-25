@@ -2,95 +2,87 @@
 #define MOUSE_EVENTS_HPP
 #include "Event.hpp"
 
-class MouseMovedEvent : public event {
+class mouse_moved_event : public event {
 public:
-    MouseMovedEvent(float mouse_x, float mouse_y)
-            : m_mousex(mouse_x), m_mousey(mouse_y) {}
+    mouse_moved_event(float mouse_x, float mouse_y)
+            : mouse_x{mouse_x}, mouse_y{mouse_y} {}
 
-    inline float GetMouseX() { return m_mousex; }
-    inline float GetMouseY() { return m_mousey; }
+    inline float get_mouse_x() { return mouse_x; }
+    inline float get_mouse_y() { return mouse_y; }
 
     virtual std::string to_string() const override {
-        std::stringstream ss;
-        ss << "MouseMovedEvent: " << m_mousex << ", " << m_mousey;
-        return ss.str();
+        return "mouse_moved_event: " + std::to_string(mouse_x) + ", " + std::to_string(mouse_y);
     }
 
     EVENT_CLASS_TYPE(MouseMoved);
 
     EVENT_CLASS_CATEGORY(event_category::EventCategoryMouse);
 private:
-    float m_mousex, m_mousey;
+    float mouse_x, mouse_y;
 };
 
-class MouseScrolledEvent : public event {
+class mouse_scrolled_event : public event {
 public:
-    MouseScrolledEvent(float xOffset, float yOffset)
-            : m_xoffset(xOffset), m_yoffset(yOffset) {}
+    mouse_scrolled_event(float xOffset, float yOffset)
+            : xoffset(xOffset), yoffset(yOffset) {}
 
-    inline float GetXOffset() const { return m_xoffset; }
-    inline float GetYOffset() const { return m_yoffset; }
+    inline float get_x_offset() const { return xoffset; }
+    inline float get_y_offset() const { return yoffset; }
 
     virtual std::string to_string() const override {
-        std::stringstream ss;
-        ss << "MouseScrolledEvent: " << GetXOffset() << ", " << GetYOffset();
-        return ss.str();
+        return "mouse_scrolled_event: " + std::to_string(get_x_offset()) + ", " + std::to_string(get_y_offset());
     }
 
     EVENT_CLASS_TYPE(MouseScrolled)
 
     EVENT_CLASS_CATEGORY(event_category::EventCategoryMouse | event_category::EventCategoryInput)
 private:
-    float m_xoffset, m_yoffset;
+    float xoffset, yoffset;
 };
 
-class MouseButtonEvent : public event {
+class bouse_button_event : public event {
 public:
-    inline int getButton() const { return m_button; }
+    inline int get_button() const { return button; }
 
     EVENT_CLASS_CATEGORY(event_category::EventCategoryMouseButton);
 
 protected:
-    MouseButtonEvent(int button) : m_button(button) {}
-    int m_button;
+    bouse_button_event(int button) : button(button) {}
+    int button;
 };
 
-class MouseButtonPressedEvent : public MouseButtonEvent {
+class mouse_button_pressed_event : public bouse_button_event {
 public:
-    MouseButtonPressedEvent(int button, float mx, float my)
-            : MouseButtonEvent(button), mousex{mx}, mousey{my} {}
+    mouse_button_pressed_event(int button, float mx, float my)
+            : bouse_button_event(button), mouse_x{mx}, mouse_y{my} {}
 
-    inline float GetMouseX() const { return mousex; }
-    inline float GetMouseY() const { return mousey; }
+    inline float get_mouse_x() const { return mouse_x; }
+    inline float get_mouse_y() const { return mouse_y; }
 
     virtual std::string to_string() const override {
-        std::stringstream ss;
-        ss << "MouseButtonPressedEvent: " << m_button;
-        return ss.str();
+        return "mouse_button_pressed_event: " + std::to_string(button);
     }
 
     EVENT_CLASS_TYPE(MouseButtonPressed);
 private:
-    float mousex, mousey;
+    float mouse_x, mouse_y;
 };
 
-class MouseButtonReleasedEvent : public MouseButtonEvent {
+class mouse_button_released_event : public bouse_button_event {
 public:
-    MouseButtonReleasedEvent(int button, float mx, float my)
-            : MouseButtonEvent(button), mousex{mx}, mousey{my} {}
+    mouse_button_released_event(int button, float mx, float my)
+            : bouse_button_event(button), mouse_x{mx}, mouse_y{my} {}
 
-    inline float GetMouseX() const { return mousex; }
-    inline float GetMouseY() const { return mousey; }
+    inline float get_mouse_x() const { return mouse_x; }
+    inline float get_mouse_y() const { return mouse_y; }
 
     virtual std::string to_string() const override {
-        std::stringstream ss;
-        ss << "MouseButtonReleasedEvent: " << m_button;
-        return ss.str();
+        return "mouse_button_released_event: " + std::to_string(button);
     }
 
     EVENT_CLASS_TYPE(MouseButtonReleased);
 private:
-    float mousex, mousey;
+    float mouse_x, mouse_y;
 };
 
 #endif //CLASSNAME_HPP

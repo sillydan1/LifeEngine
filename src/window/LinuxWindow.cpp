@@ -107,12 +107,12 @@ void LinuxWindow::SetupWindowCallbacks() {
         double x,y; glfwGetCursorPos(wi, &x, &y);
         switch (action) {
             case GLFW_PRESS: {
-                MouseButtonPressedEvent e(button, static_cast<float>(x), static_cast<float>(y));
+                mouse_button_pressed_event e(button, static_cast<float>(x), static_cast<float>(y));
                 data.eventcallback(e);
                 break;
             }
             case GLFW_RELEASE: {
-                MouseButtonReleasedEvent e(button, static_cast<float>(x), static_cast<float>(y));
+                mouse_button_released_event e(button, static_cast<float>(x), static_cast<float>(y));
                 data.eventcallback(e);
                 break;
             }
@@ -124,13 +124,13 @@ void LinuxWindow::SetupWindowCallbacks() {
 
     glfwSetScrollCallback(m_window, [](GLFWwindow* wi, double x_offset, double y_offset) {
         WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(wi));
-        MouseScrolledEvent e((float) x_offset, (float) y_offset);
+        mouse_scrolled_event e((float) x_offset, (float) y_offset);
         data.eventcallback(e);
     });
 
     glfwSetCursorPosCallback(m_window, [](GLFWwindow* wi, double x_pos, double y_pos) {
         WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(wi));
-        MouseMovedEvent e((float) x_pos, (float) y_pos);
+        mouse_moved_event e((float) x_pos, (float) y_pos);
         data.eventcallback(e);
     });
 }
