@@ -34,10 +34,20 @@ public:
     void propagate_event_across_layers(event& event);
     virtual void game_start();
     virtual void handle_application_event(event& event);
-    inline void push_layer(const std::shared_ptr<layer>& layer) { layers.push_layer(layer); }
-    template<typename T, typename... Args> inline void PushLayer(Args... args) { layers.push_layer(std::static_pointer_cast<layer>(std::make_shared<T>(args...))); }
-    inline void overlay_layer(const std::shared_ptr<layer>& layer) { layers.push_overlay(layer); }
-    template<typename T, typename... Args> inline void OverlayLayer(Args... args) { layers.push_overlay(std::static_pointer_cast<layer>(std::make_shared<T>(args...))); }
+    inline void push_layer(const std::shared_ptr<layer>& layer) {
+        layers.push_layer(layer);
+    }
+    template<typename T, typename... Args>
+    inline void push_layer(Args... args) {
+        layers.push_layer(std::static_pointer_cast<layer>(std::make_shared<T>(args...)));
+    }
+    inline void overlay_layer(const std::shared_ptr<layer>& layer) {
+        layers.push_overlay(layer);
+    }
+    template<typename T, typename... Args>
+    inline void overlay_layer(Args... args) {
+        layers.push_overlay(std::static_pointer_cast<layer>(std::make_shared<T>(args...)));
+    }
 };
 
 #endif //LIFEENGINE_APPLICATION_H
