@@ -28,7 +28,7 @@ enum class component_filter_type {
     OR
 };
 
-class System {
+class life_system {
     std::vector<component_id_t> m_comp_ids;
     bool finalized; // Mostly just for debugging
 public:
@@ -36,8 +36,8 @@ public:
     bool multi_component;
     component_filter_type filterType;
 
-    System() : finalized{false}, component_filter{}, multi_component{false}, filterType{component_filter_type::AND} {}
-    virtual ~System() = default;
+    life_system() : finalized{false}, component_filter{}, multi_component{false}, filterType{component_filter_type::AND} {}
+    virtual ~life_system() = default;
     // TODO: Systems should <act> on collections of components (entities)
     // TODO: Systems should "say" what types of entities they want to act on
 
@@ -82,19 +82,19 @@ protected:
 
 class SystemList {
 public:
-    template<typename T, class = std::enable_if_t<std::is_base_of_v<System, T>> >
+    template<typename T, class = std::enable_if_t<std::is_base_of_v<life_system, T>> >
     inline void PushSystem(const T& system) {
         m_systems.push_back(std::make_unique<T>(system));
     }
-    template<typename T, class = std::enable_if_t<std::is_base_of_v<System, T>> >
+    template<typename T, class = std::enable_if_t<std::is_base_of_v<life_system, T>> >
     inline void PushSystem(T&& system) {
         m_systems.push_back(std::make_unique<T>(std::move(system)));
     }
-    template<typename T, class = std::enable_if_t<std::is_base_of_v<System, T>> >
+    template<typename T, class = std::enable_if_t<std::is_base_of_v<life_system, T>> >
     inline void PushSystem() {
         m_systems.push_back(std::make_unique<T>());
     }
-    template<typename T, class = std::enable_if_t<std::is_base_of_v<System, T>> >
+    template<typename T, class = std::enable_if_t<std::is_base_of_v<life_system, T>> >
     inline void PushSystem(std::unique_ptr<T>&& v) {
         m_systems.push_back(std::move(v));
     }
@@ -103,7 +103,7 @@ public:
     auto end()   { return m_systems.end(); }
 
 private:
-    std::vector<std::unique_ptr<System>> m_systems;
+    std::vector<std::unique_ptr<life_system>> m_systems;
 };
 
 #endif //SYSTEM_HPP
