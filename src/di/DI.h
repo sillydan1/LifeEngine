@@ -22,17 +22,17 @@
 
 struct di {
     template<typename T>
-    static T Get() {
+    static T get() {
         return std::any_cast<T>(instances[typeid(T).name()]);
     }
 
     template<typename T>
-    static void Set(T&& object) {
+    static void set(T&& object) {
         instances[typeid(object).name()] = object;
     }
 
     template<typename T>
-    static void Set(const T& object) {
+    static void set(const T& object) {
         instances[typeid(object).name()] = object;
     }
 
